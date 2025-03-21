@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .selection-section {
+            text-align: center;
+        }
+
+        .selection-section button {
+            width: 45%;
+            margin: 10px;
+        }
+
+        .block {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fafafa;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .block.visible {
+            opacity: 1;
+        }
+
+        .sub-block {
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        h4 {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .option-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option-buttons button {
+            padding: 8px 16px;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1 1 auto;
+            min-width: 100px;
+        }
+
+        .option-buttons button:hover {
+            background-color: #d0d0d0;
+        }
+
+        .option-buttons button.selected {
+            background-color: #007BFF;
+            color: white;
+            border-color: #0056b3;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #primary-assessment, #secondary-assessment {
+            display: none;
+        }
+    </style>
+    <script>
+        let currentBlock = 0;
+        const blocks = ["loc-block", "airway-breathing-block", "circulation-block"];
+        const responses = {
+            primary: {
+                levelOfConsciousness: {},
+                airwayAndBreathing: { airway: {}, breathing: {} },
+                circulation: {}
+            }
+        };
+
+        function showPrimary() {
+            document.getElementById("selection").style.display = "none";
+            document.getElementById("primary-assessment").style.display = "block";
+            document.getElementById("secondary-assessment").style.display = "none";
+            currentBlock = 0;
+            showBlock(currentBlock);
+        }
+
+        function showSecondary() {
+            document.getElementById("selection").style.display = "none";
+            document.getElementById("primary-assessment").style.display = "none";
+            document.getElementById("secondary-assessment").style.display = "block";
+        }
+
+        function backToSelection() {
+            document.getElementById("selection").style.display = "block";
+            document.getElementById("primary-assessment").style.display = "none";
+            document.getElementById("secondary-assessment").style.display = "none";
+            hideAllBlocks();
+            // Reset responses
+            responses.primary = {
+                levelOfConsciousness: {},
+                airwayAndBreathing: { airway: {}, breathing: {} },
+                circulation: {}
+            };
+        }
+
+        function showBlock(index) {
+            hideAllBlocks();
+            const block = document.getElementById(blocks[index]);
+            if (block) {
+                block.style.display = "block";
+                setTimeout(() => block.classList.add("visible"), 10);
+            }
+        }
+
+        function hideAllBlocks() {
+            blocks.forEach(id => {
+                const block = document.getElementById(id);
+                if (block) {
+                    block.classList.remove("visible");
+                    block.style.display = "none";
+                }
+            });
+        }
+
+        function selectOption(name, value) {
+            if (name === "loc1") {
+                responses.primary.levelOfConsciousness.loc1 = value;
+                // Resaltar botón seleccionado
+                const buttons = document.getElementsByName(name);
+                buttons.forEach(btn => {
+                    btn.classList.remove("selected");
+                    if (btn.value === value) btn.classList.add("selected");
+                });
+                // Avanzar al siguiente bloque
+                if (currentBlock < blocks.length - 1) {
+                    currentBlock++;
+                    showBlock(currentBlock);
+                }
+            } else if (name === "airway1") {
+                responses.primary.airwayAndBreathing.airway.airway1 = value;
+                // Resaltar botón seleccionado
+                const buttons = document.getElementsByName(name);
+                buttons.forEach(btn => {
+                    btn.classList.remove("selected");
+                    if (btn.value === value) btn.classList.add("selected");
+                });
+                // Verificar si ambas opciones están seleccionadas
+                if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
+                    if (currentBlock < blocks.length - 1) {
+                        currentBlock++;
+                        showBlock(currentBlock);
+                    }
+                }
+            } else if (name === "breathing1") {
+                responses.primary.airwayAndBreathing.breathing.breathing1 = value;
+                // Resaltar botón seleccionado
+                const buttons = document.getElementsByName(name);
+                buttons.forEach(btn => {
+                    btn.classList.remove("selected");
+                    if (btn.value === value) btn.classList.add("selected");
+                });
+                // Verificar si ambas opciones están seleccionadas
+                if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
+                    if (currentBlock < blocks.length - 1) {
+                        currentBlock++;
+                        showBlock(currentBlock);
+                    }
+                }
+            } else if (name === "circ1") {
+                responses.primary.circulation.circ1 = value;
+                // Resaltar botón seleccionado
+                const buttons = document.getElementsByName(name);
+                buttons.forEach(btn => {
+                    btn.classList.remove("selected");
+                    if (btn.value === value) btn.classList.add("selected");
+                });
+                // Enviar formulario si es el último bloque
+                if (currentBlock === blocks.length - 1) {
+                    submitPrimary();
+                }
+            }
+        }
+
+        function submitPrimary() {
+            console.log("Primary Assessment Responses:", responses.primary);
+            alert("Primary Assessment submitted. Check the console for responses.");
+            backToSelection();
+        }
+
+        function submitSecondary() {
+            const secondaryForm = document.getElementById("secondary-form");
+            const secondaryData = new FormData(secondaryForm);
+
+            const responses = {
+                secondary: {
+                    q3: secondaryData.get("q3"),
+                    q4: secondaryData.get("q4")
+                }
+            };
+
+            console.log("Secondary Assessment Responses:", responses);
+            alert("Secondary Assessment submitted. Check the console for responses.");
+            backToSelection();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Assessment</h1>
+        
+        <!-- Selection Screen -->
+        <section id="selection" class="selection-section">
+            <h2>Select an Assessment</h2>
+            <button onclick="showPrimary()">Primary Assessment</button>
+            <button onclick="showSecondary()">Secondary Assessment</button>
+        </section>
+
+        <!-- Primary Assessment -->
+        <section id="primary-assessment">
+            <h2>Primary Assessment</h2>
+            <form id="primary-form">
+                <!-- Level of Consciousness -->
+                <div id="loc-block" class="block" style="display: none;">
+                    <h3>Level of Consciousness</h3>
+                    <div class="question">
+                        <p>1. What is the patient's level of consciousness?</p>
+                        <div class="option-buttons">
+                            <button type="button" name="loc1" value="conscious" onclick="selectOption('loc1', 'conscious')">Conscious</button>
+                            <button type="button" name="loc1" value="semi-conscious" onclick="selectOption('loc1', 'semi-conscious')">Semi-Conscious</button>
+                            <button type="button" name="loc1" value="unconscious" onclick="selectOption('loc1', 'unconscious')">Unconscious</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Airway and Breathing -->
+                <div id="airway-breathing-block" class="block" style="display: none;">
+                    <h3>Airway and Breathing</h3>
+                    <div class="sub-block">
+                        <h4>Airway</h4>
+                        <div class="question">
+                            <p>1. Airway status:</p>
+                            <div class="option-buttons">
+                                <button type="button" name="airway1" value="normal" onclick="selectOption('airway1', 'normal')">Normal</button>
+                                <button type="button" name="airway1" value="abnormal" onclick="selectOption('airway1', 'abnormal')">Abnormal</button>
+                                <button type="button" name="airway1" value="clear" onclick="selectOption('airway1', 'clear')">Clear</button>
+                                <button type="button" name="airway1" value="obstructed" onclick="selectOption('airway1', 'obstructed')">Obstructed</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-block">
+                        <h4>Breathing</h4>
+                        <div class="question">
+                            <p>2. Breathing status:</p>
+                            <div class="option-buttons">
+                                <button type="button" name="breathing1" value="normal" onclick="selectOption('breathing1', 'normal')">Normal</button>
+                                <button type="button" name="breathing1" value="abnormal" onclick="selectOption('breathing1', 'abnormal')">Abnormal</button>
+                                <button type="button" name="breathing1" value="fast" onclick="selectOption('breathing1', 'fast')">Fast</button>
+                                <button type="button" name="breathing1" value="slow" onclick="selectOption('breathing1', 'slow')">Slow</button>
+                                <button type="button" name="breathing1" value="shallow" onclick="selectOption('breathing1', 'shallow')">Shallow</button>
+                                <button type="button" name="breathing1" value="deep" onclick="selectOption('breathing1', 'deep')">Deep</button>
+                                <button type="button" name="breathing1" value="with_effort" onclick="selectOption('breathing1', 'with_effort')">With Effort</button>
+                                <button type="button" name="breathing1" value="wizzy_sound" onclick="selectOption('breathing1', 'wizzy_sound')">Wizzy Sound</button>
+                                <button type="button" name="breathing1" value="not_breathing" onclick="selectOption('breathing1', 'not_breathing')">Not Breathing</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Circulation -->
+                <div id="circulation-block" class="block" style="display: none;">
+                    <h3>Circulation</h3>
+                    <div class="question">
+                        <p>1. Circulation status:</p>
+                        <div class="option-buttons">
+                            <button type="button" name="circ1" value="normal" onclick="selectOption('circ1', 'normal')">Normal</button>
+                            <button type="button" name="circ1" value="abnormal" onclick="selectOption('circ1', 'abnormal')">Abnormal</button>
+                            <button type="button" name="circ1" value="pale" onclick="selectOption('circ1', 'pale')">Pale</button>
+                            <button type="button" name="circ1" value="blue_lips" onclick="selectOption('circ1', 'blue_lips')">Blue Lips</button>
+                            <button type="button" name="circ1" value="clammy_skin" onclick="selectOption('circ1', 'clammy_skin')">Clammy Skin</button>
+                            <button type="button" name="circ1" value="cold" onclick="selectOption('circ1', 'cold')">Cold</button>
+                            <button type="button" name="circ1" value="numbness" onclick="selectOption('circ1', 'numbness')">Numbness</button>
+                            <button type="button" name="circ1" value="tingling" onclick="selectOption('circ1', 'tingling')">Tingling</button>
+                            <button type="button" name="circ1" value="cold_limbs" onclick="selectOption('circ1', 'cold_limbs')">Cold Limbs</button>
+                            <button type="button" name="circ1" value="signs_of_medical_shock" onclick="selectOption('circ1', 'signs_of_medical_shock')">Signs of Medical Shock</button>
+                            <button type="button" name="circ1" value="signs_of_bleeding" onclick="selectOption('circ1', 'signs_of_bleeding')">Signs of Bleeding</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- Secondary Assessment -->
+        <section id="secondary-assessment" style="display: none;">
+            <h2>Secondary Assessment</h2>
+            <form id="secondary-form">
+                <div class="question">
+                    <p>1. How productive were you today?</p>
+                    <select name="q3">
+                        <option value="very">Very productive</option>
+                        <option value="regular">Regular</option>
+                        <option value="little">Little productive</option>
+                    </select>
+                </div>
+                <div class="question">
+                    <p>2. What would you improve?</p>
+                    <input type="text" name="q4" placeholder="Enter here">
+                </div>
+                <button type="button" onclick="submitSecondary()">Submit</button>
+                <button type="button" onclick="backToSelection()">Back</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>
