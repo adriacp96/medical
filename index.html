@@ -42,10 +42,12 @@
             background-color: #fafafa;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            display: none; /* Aseguramos que esté oculto por defecto */
         }
 
         .block.visible {
             opacity: 1;
+            display: block; /* Mostramos solo cuando tiene la clase visible */
         }
 
         .sub-block {
@@ -92,13 +94,13 @@
             border-color: #0056b3;
         }
 
-        .sample-entry {
+        .sample-entry, .dots-entry {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
         }
 
-        .sample-entry label {
+        .sample-entry label, .dots-entry label {
             font-size: 20px;
             font-weight: bold;
             width: 30px;
@@ -106,7 +108,7 @@
             color: #333;
         }
 
-        .sample-entry input[type="text"] {
+        .sample-entry input[type="text"], .dots-entry input[type="text"] {
             flex: 1;
             padding: 8px;
             border: 1px solid #ddd;
@@ -129,10 +131,6 @@
         }
 
         #primary-assessment, #secondary-assessment {
-            display: none;
-        }
-
-        #sample-section, #dots-section {
             display: none;
         }
     </style>
@@ -160,15 +158,16 @@
             document.getElementById("selection").style.display = "none";
             document.getElementById("primary-assessment").style.display = "none";
             document.getElementById("secondary-assessment").style.display = "block";
+            // Aseguramos que las subsecciones estén ocultas al entrar
+            hideSecondarySections();
         }
 
         function backToSelection() {
             document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "none";
             document.getElementById("secondary-assessment").style.display = "none";
-            document.getElementById("sample-section").style.display = "none";
-            document.getElementById("dots-section").style.display = "none";
             hideAllBlocks();
+            hideSecondarySections();
             // Reset responses
             responses.primary = {
                 levelOfConsciousness: {},
@@ -182,8 +181,7 @@
             hideAllBlocks();
             const block = document.getElementById(blocks[index]);
             if (block) {
-                block.style.display = "block";
-                setTimeout(() => block.classList.add("visible"), 10);
+                block.classList.add("visible");
             }
         }
 
@@ -192,9 +190,15 @@
                 const block = document.getElementById(id);
                 if (block) {
                     block.classList.remove("visible");
-                    block.style.display = "none";
                 }
             });
+        }
+
+        function hideSecondarySections() {
+            const sampleSection = document.getElementById("sample-section");
+            const dotsSection = document.getElementById("dots-section");
+            if (sampleSection) sampleSection.classList.remove("visible");
+            if (dotsSection) dotsSection.classList.remove("visible");
         }
 
         function selectOption(name, value) {
@@ -249,13 +253,19 @@
         }
 
         function showSample() {
-            document.getElementById("sample-section").style.display = "block";
-            document.getElementById("dots-section").style.display = "none";
+            hideSecondarySections();
+            const sampleSection = document.getElementById("sample-section");
+            if (sampleSection) {
+                sampleSection.classList.add("visible");
+            }
         }
 
         function showDots() {
-            document.getElementById("sample-section").style.display = "none";
-            document.getElementById("dots-section").style.display = "block";
+            hideSecondarySections();
+            const dotsSection = document.getElementById("dots-section");
+            if (dotsSection) {
+                dotsSection.classList.add("visible");
+            }
         }
 
         function submitPrimary() {
@@ -266,7 +276,9 @@
 
         function submitSecondary() {
             const sampleForm = document.getElementById("sample-form");
+            const dotsForm = document.getElementById("dots-form");
             const sampleData = new FormData(sampleForm);
+            const dotsData = new FormData(dotsForm);
 
             responses.secondary = {
                 sample: {
@@ -276,6 +288,12 @@
                     pastMedicalHistory: sampleData.get("pastMedicalHistory"),
                     lastMeal: sampleData.get("lastMeal"),
                     events: sampleData.get("events")
+                },
+                dots: {
+                    deformities: dotsData.get("deformities"),
+                    openInjuries: dotsData.get("openInjuries"),
+                    tenderness: dotsData.get("tenderness"),
+                    swelling: dotsData.get("swelling")
                 }
             };
 
@@ -301,7 +319,7 @@
             <h2>Primary Assessment</h2>
             <form id="primary-form">
                 <!-- Level of Consciousness -->
-                <div id="loc-block" class="block" style="display: none;">
+                <div id="loc-block" class="block">
                     <h3>Level of Consciousness</h3>
                     <div class="question">
                         <p>1. What is the patient's level of consciousness?</p>
@@ -314,7 +332,7 @@
                 </div>
 
                 <!-- Airway and Breathing -->
-                <div id="airway-breathing-block" class="block" style="display: none;">
+                <div id="airway-breathing-block" class="block">
                     <h3>Airway and Breathing</h3>
                     <div class="sub-block">
                         <h4>Airway</h4>
@@ -348,7 +366,7 @@
                 </div>
 
                 <!-- Circulation -->
-                <div id="circulation-block" class="block" style="display: none;">
+                <div id="circulation-block" class="block">
                     <h3>Circulation</h3>
                     <div class="question">
                         <p>1. Circulation status:</p>
@@ -410,10 +428,28 @@
                 </form>
             </div>
 
-            <!-- DOTS Section (Placeholder) -->
+            <!-- DOTS Section -->
             <div id="dots-section" class="block">
-                <p>DOTS content will go here (to be defined).</p>
-                <button type="button" onclick="backToSelection()">Back</button>
+                <form id="dots-form">
+                    <div class="dots-entry">
+                        <label>D</label>
+                        <input type="text" name="deformities" placeholder="Deformities">
+                    </div>
+                    <div class="dots-entry">
+                        <label>O</label>
+                        <input type="text" name="openInjuries" placeholder="Open Injuries">
+                    </div>
+                    <div class="dots-entry">
+                        <label>T</label>
+                        <input type="text" name="tenderness" placeholder="Tenderness">
+                    </div>
+                    <div class="dots-entry">
+                        <label>S</label>
+                        <input type="text" name="swelling" placeholder="Swelling">
+                    </div>
+                    <button type="button" onclick="submitSecondary()">Submit</button>
+                    <button type="button" onclick="backToSelection()">Back</button>
+                </form>
             </div>
         </section>
     </div>
