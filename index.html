@@ -42,12 +42,12 @@
             background-color: #fafafa;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            display: none; /* Aseguramos que esté oculto por defecto */
+            display: none;
         }
 
         .block.visible {
             opacity: 1;
-            display: block; /* Mostramos solo cuando tiene la clase visible */
+            display: block;
         }
 
         .sub-block {
@@ -133,6 +133,37 @@
         #primary-assessment, #secondary-assessment {
             display: none;
         }
+
+        #summary {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        #summary h3 {
+            margin: 0 0 10px 0;
+            color: #007BFF;
+        }
+
+        #summary ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #summary li {
+            margin-bottom: 8px;
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #summary li span {
+            font-weight: bold;
+            color: #333;
+        }
     </style>
     <script>
         let currentBlock = 0;
@@ -147,7 +178,7 @@
         };
 
         function showPrimary() {
-            document.getElementById("selection").style.display = "none";
+            document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "block";
             document.getElementById("secondary-assessment").style.display = "none";
             currentBlock = 0;
@@ -155,10 +186,9 @@
         }
 
         function showSecondary() {
-            document.getElementById("selection").style.display = "none";
+            document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "none";
             document.getElementById("secondary-assessment").style.display = "block";
-            // Aseguramos que las subsecciones estén ocultas al entrar
             hideSecondarySections();
         }
 
@@ -168,13 +198,6 @@
             document.getElementById("secondary-assessment").style.display = "none";
             hideAllBlocks();
             hideSecondarySections();
-            // Reset responses
-            responses.primary = {
-                levelOfConsciousness: {},
-                airwayAndBreathing: { airway: {}, breathing: {} },
-                circulation: {}
-            };
-            responses.secondary = {};
         }
 
         function showBlock(index) {
@@ -270,7 +293,8 @@
 
         function submitPrimary() {
             console.log("Primary Assessment Responses:", responses.primary);
-            alert("Primary Assessment submitted. Check the console for responses.");
+            updateSummary();
+            alert("Primary Assessment submitted. Check the summary below.");
             backToSelection();
         }
 
@@ -298,8 +322,56 @@
             };
 
             console.log("Secondary Assessment Responses:", responses.secondary);
-            alert("Secondary Assessment submitted. Check the console for responses.");
+            updateSummary();
+            alert("Secondary Assessment submitted. Check the summary below.");
             backToSelection();
+        }
+
+        function updateSummary() {
+            const summaryDiv = document.getElementById("summary");
+            summaryDiv.innerHTML = ""; // Limpiar contenido anterior
+
+            const primary = responses.primary;
+            const secondary = responses.secondary;
+
+            let summaryHTML = "<h3>Summary</h3><ul>";
+
+            // Primary Assessment
+            if (primary.levelOfConsciousness.loc1) {
+                summaryHTML += `<li><span>Level of Consciousness:</span> ${primary.levelOfConsciousness.loc1}</li>`;
+            }
+            if (primary.airwayAndBreathing.airway.airway1) {
+                summaryHTML += `<li><span>Airway Status:</span> ${primary.airwayAndBreathing.airway.airway1}</li>`;
+            }
+            if (primary.airwayAndBreathing.breathing.breathing1) {
+                summaryHTML += `<li><span>Breathing Status:</span> ${primary.airwayAndBreathing.breathing.breathing1}</li>`;
+            }
+            if (primary.circulation.circ1) {
+                summaryHTML += `<li><span>Circulation Status:</span> ${primary.circulation.circ1}</li>`;
+            }
+
+            // Secondary Assessment - SAMPLE
+            if (secondary.sample && Object.keys(secondary.sample).length > 0) {
+                summaryHTML += `<li><span>SAMPLE:</span></li>`;
+                if (secondary.sample.signsSymptoms) summaryHTML += `<li>&nbsp;&nbsp;S: ${secondary.sample.signsSymptoms}</li>`;
+                if (secondary.sample.allergies) summaryHTML += `<li>&nbsp;&nbsp;A: ${secondary.sample.allergies}</li>`;
+                if (secondary.sample.medications) summaryHTML += `<li>&nbsp;&nbsp;M: ${secondary.sample.medications}</li>`;
+                if (secondary.sample.pastMedicalHistory) summaryHTML += `<li>&nbsp;&nbsp;P: ${secondary.sample.pastMedicalHistory}</li>`;
+                if (secondary.sample.lastMeal) summaryHTML += `<li>&nbsp;&nbsp;L: ${secondary.sample.lastMeal}</li>`;
+                if (secondary.sample.events) summaryHTML += `<li>&nbsp;&nbsp;E: ${secondary.sample.events}</li>`;
+            }
+
+            // Secondary Assessment - DOTS
+            if (secondary.dots && Object.keys(secondary.dots).length > 0) {
+                summaryHTML += `<li><span>DOTS:</span></li>`;
+                if (secondary.dots.deformities) summaryHTML += `<li>&nbsp;&nbsp;D: ${secondary.dots.deformities}</li>`;
+                if (secondary.dots.openInjuries) summaryHTML += `<li>&nbsp;&nbsp;O: ${secondary.dots.openInjuries}</li>`;
+                if (secondary.dots.tenderness) summaryHTML += `<li>&nbsp;&nbsp;T: ${secondary.dots.tenderness}</li>`;
+                if (secondary.dots.swelling) summaryHTML += `<li>&nbsp;&nbsp;S: ${secondary.dots.swelling}</li>`;
+            }
+
+            summaryHTML += "</ul>";
+            summaryDiv.innerHTML = summaryHTML;
         }
     </script>
 </head>
@@ -312,6 +384,7 @@
             <h2>Select an Assessment</h2>
             <button onclick="showPrimary()">Primary Assessment</button>
             <button onclick="showSecondary()">Secondary Assessment</button>
+            <div id="summary"></div> <!-- Área para el resumen -->
         </section>
 
         <!-- Primary Assessment -->
