@@ -92,6 +92,27 @@
             border-color: #0056b3;
         }
 
+        .sample-entry {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .sample-entry label {
+            font-size: 20px;
+            font-weight: bold;
+            width: 30px;
+            text-align: center;
+            color: #333;
+        }
+
+        .sample-entry input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
         button {
             width: 100%;
             padding: 10px;
@@ -110,6 +131,10 @@
         #primary-assessment, #secondary-assessment {
             display: none;
         }
+
+        #sample-section, #dots-section {
+            display: none;
+        }
     </style>
     <script>
         let currentBlock = 0;
@@ -119,7 +144,8 @@
                 levelOfConsciousness: {},
                 airwayAndBreathing: { airway: {}, breathing: {} },
                 circulation: {}
-            }
+            },
+            secondary: {}
         };
 
         function showPrimary() {
@@ -140,6 +166,8 @@
             document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "none";
             document.getElementById("secondary-assessment").style.display = "none";
+            document.getElementById("sample-section").style.display = "none";
+            document.getElementById("dots-section").style.display = "none";
             hideAllBlocks();
             // Reset responses
             responses.primary = {
@@ -147,6 +175,7 @@
                 airwayAndBreathing: { airway: {}, breathing: {} },
                 circulation: {}
             };
+            responses.secondary = {};
         }
 
         function showBlock(index) {
@@ -171,26 +200,22 @@
         function selectOption(name, value) {
             if (name === "loc1") {
                 responses.primary.levelOfConsciousness.loc1 = value;
-                // Resaltar botón seleccionado
                 const buttons = document.getElementsByName(name);
                 buttons.forEach(btn => {
                     btn.classList.remove("selected");
                     if (btn.value === value) btn.classList.add("selected");
                 });
-                // Avanzar al siguiente bloque
                 if (currentBlock < blocks.length - 1) {
                     currentBlock++;
                     showBlock(currentBlock);
                 }
             } else if (name === "airway1") {
                 responses.primary.airwayAndBreathing.airway.airway1 = value;
-                // Resaltar botón seleccionado
                 const buttons = document.getElementsByName(name);
                 buttons.forEach(btn => {
                     btn.classList.remove("selected");
                     if (btn.value === value) btn.classList.add("selected");
                 });
-                // Verificar si ambas opciones están seleccionadas
                 if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
                     if (currentBlock < blocks.length - 1) {
                         currentBlock++;
@@ -199,13 +224,11 @@
                 }
             } else if (name === "breathing1") {
                 responses.primary.airwayAndBreathing.breathing.breathing1 = value;
-                // Resaltar botón seleccionado
                 const buttons = document.getElementsByName(name);
                 buttons.forEach(btn => {
                     btn.classList.remove("selected");
                     if (btn.value === value) btn.classList.add("selected");
                 });
-                // Verificar si ambas opciones están seleccionadas
                 if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
                     if (currentBlock < blocks.length - 1) {
                         currentBlock++;
@@ -214,17 +237,25 @@
                 }
             } else if (name === "circ1") {
                 responses.primary.circulation.circ1 = value;
-                // Resaltar botón seleccionado
                 const buttons = document.getElementsByName(name);
                 buttons.forEach(btn => {
                     btn.classList.remove("selected");
                     if (btn.value === value) btn.classList.add("selected");
                 });
-                // Enviar formulario si es el último bloque
                 if (currentBlock === blocks.length - 1) {
                     submitPrimary();
                 }
             }
+        }
+
+        function showSample() {
+            document.getElementById("sample-section").style.display = "block";
+            document.getElementById("dots-section").style.display = "none";
+        }
+
+        function showDots() {
+            document.getElementById("sample-section").style.display = "none";
+            document.getElementById("dots-section").style.display = "block";
         }
 
         function submitPrimary() {
@@ -234,17 +265,21 @@
         }
 
         function submitSecondary() {
-            const secondaryForm = document.getElementById("secondary-form");
-            const secondaryData = new FormData(secondaryForm);
+            const sampleForm = document.getElementById("sample-form");
+            const sampleData = new FormData(sampleForm);
 
-            const responses = {
-                secondary: {
-                    q3: secondaryData.get("q3"),
-                    q4: secondaryData.get("q4")
+            responses.secondary = {
+                sample: {
+                    signsSymptoms: sampleData.get("signsSymptoms"),
+                    allergies: sampleData.get("allergies"),
+                    medications: sampleData.get("medications"),
+                    pastMedicalHistory: sampleData.get("pastMedicalHistory"),
+                    lastMeal: sampleData.get("lastMeal"),
+                    events: sampleData.get("events")
                 }
             };
 
-            console.log("Secondary Assessment Responses:", responses);
+            console.log("Secondary Assessment Responses:", responses.secondary);
             alert("Secondary Assessment submitted. Check the console for responses.");
             backToSelection();
         }
@@ -338,22 +373,48 @@
         <!-- Secondary Assessment -->
         <section id="secondary-assessment" style="display: none;">
             <h2>Secondary Assessment</h2>
-            <form id="secondary-form">
-                <div class="question">
-                    <p>1. How productive were you today?</p>
-                    <select name="q3">
-                        <option value="very">Very productive</option>
-                        <option value="regular">Regular</option>
-                        <option value="little">Little productive</option>
-                    </select>
-                </div>
-                <div class="question">
-                    <p>2. What would you improve?</p>
-                    <input type="text" name="q4" placeholder="Enter here">
-                </div>
-                <button type="button" onclick="submitSecondary()">Submit</button>
+            <div class="selection-section">
+                <button onclick="showSample()">SAMPLE</button>
+                <button onclick="showDots()">DOTS</button>
+            </div>
+
+            <!-- SAMPLE Section -->
+            <div id="sample-section" class="block">
+                <form id="sample-form">
+                    <div class="sample-entry">
+                        <label>S</label>
+                        <input type="text" name="signsSymptoms" placeholder="Signs and Symptoms">
+                    </div>
+                    <div class="sample-entry">
+                        <label>A</label>
+                        <input type="text" name="allergies" placeholder="Allergies">
+                    </div>
+                    <div class="sample-entry">
+                        <label>M</label>
+                        <input type="text" name="medications" placeholder="Medications">
+                    </div>
+                    <div class="sample-entry">
+                        <label>P</label>
+                        <input type="text" name="pastMedicalHistory" placeholder="Past Medical History">
+                    </div>
+                    <div class="sample-entry">
+                        <label>L</label>
+                        <input type="text" name="lastMeal" placeholder="Last Meal">
+                    </div>
+                    <div class="sample-entry">
+                        <label>E</label>
+                        <input type="text" name="events" placeholder="Events">
+                    </div>
+                    <button type="button" onclick="submitSecondary()">Submit</button>
+                    <button type="button" onclick="backToSelection()">Back</button>
+                </form>
+            </div>
+
+            <!-- DOTS Section (Placeholder) -->
+            <div id="dots-section" class="block">
+                <p>DOTS content will go here (to be defined).</p>
                 <button type="button" onclick="backToSelection()">Back</button>
-            </form>
+            </div>
         </section>
     </div>
 </body>
