@@ -6,23 +6,28 @@
     <title>Assessment</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Emirates Bold';
+            src: url('https://c.ekstatic.net/shared/fonts/emirates/emirates-bold-v3.woff2') format('woff2');
             background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 100%;
+            width: 100%;
             margin: 0 auto;
             background: white;
-            padding: 20px;
+            padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
         }
 
         h1, h2 {
             text-align: center;
+            font-size: 1.2em;
+            margin: 5px 0;
         }
 
         .selection-section {
@@ -30,18 +35,20 @@
         }
 
         .selection-section button {
-            width: 45%;
-            margin: 10px;
+            width: 48%;
+            margin: 5px 1%;
+            padding: 8px;
+            font-size: 0.9em;
         }
 
         .block {
-            margin-bottom: 30px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             background-color: #fafafa;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.3s ease-in-out;
             display: none;
         }
 
@@ -51,37 +58,40 @@
         }
 
         .sub-block {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         h3 {
-            margin-top: 0;
+            margin: 0 0 5px 0;
             color: #333;
+            font-size: 1em;
         }
 
         h4 {
-            margin: 10px 0;
+            margin: 5px 0;
             color: #555;
+            font-size: 0.9em;
         }
 
         .question {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .option-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 5px;
         }
 
         .option-buttons button {
-            padding: 8px 16px;
+            padding: 5px 10px;
             background-color: #e0e0e0;
             border: 1px solid #ccc;
             border-radius: 4px;
             cursor: pointer;
             flex: 1 1 auto;
-            min-width: 100px;
+            min-width: 80px;
+            font-size: 0.8em;
         }
 
         .option-buttons button:hover {
@@ -97,33 +107,35 @@
         .sample-entry, .dots-entry {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
         .sample-entry label, .dots-entry label {
-            font-size: 20px;
+            font-size: 1em;
             font-weight: bold;
-            width: 30px;
+            width: 20px;
             text-align: center;
             color: #333;
         }
 
         .sample-entry input[type="text"], .dots-entry input[type="text"] {
             flex: 1;
-            padding: 8px;
+            padding: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 0.8em;
         }
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             background-color: #007BFF;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 5px;
+            font-size: 0.9em;
         }
 
         button:hover {
@@ -135,29 +147,32 @@
         }
 
         #summary {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 10px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             background-color: #f9f9f9;
+            font-size: 0.8em;
         }
 
         #summary h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             color: #007BFF;
+            font-size: 1em;
         }
 
         #summary ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         #summary li {
-            margin-bottom: 8px;
-            padding: 5px;
+            margin-bottom: 5px;
+            padding: 3px;
             background-color: #fff;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         #summary li span {
@@ -166,29 +181,33 @@
         }
 
         .additional-info {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 10px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             background-color: #f9f9f9;
         }
 
-        .additional-info select {
+        .additional-info select, .additional-info input[type="text"] {
             width: 100%;
-            padding: 8px;
+            padding: 5px;
             margin: 5px 0;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 0.8em;
+            box-sizing: border-box;
         }
 
         .action-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 5px;
+            margin-top: 10px;
         }
 
         .action-buttons button {
             width: 50%;
+            padding: 8px;
+            font-size: 0.9em;
         }
 
         .action-buttons button#save-notes {
@@ -205,6 +224,17 @@
 
         .action-buttons button#clear-all:hover {
             background-color: #c82333;
+        }
+
+        @media (max-width: 375px) {
+            .selection-section button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .option-buttons button {
+                min-width: 60px;
+            }
         }
     </style>
     <script>
@@ -241,7 +271,7 @@
             document.getElementById("secondary-assessment").style.display = "none";
             hideAllBlocks();
             hideSecondarySections();
-            updateAdditionalInfo(); // Actualizar la información adicional al volver
+            updateAdditionalInfo();
         }
 
         function showBlock(index) {
@@ -382,25 +412,25 @@
             let summaryHTML = "<h3>Summary</h3><ul>";
 
             // Additional Info
-            if (additional.seatNumber) summaryHTML += `<li><span>Seat Number:</span> ${additional.seatNumber}</li>`;
+            if (additional.seatNumber) summaryHTML += `<li><span>Seat:</span> ${additional.seatNumber}</li>`;
             if (additional.age) summaryHTML += `<li><span>Age:</span> ${additional.age}</li>`;
             if (additional.gender) summaryHTML += `<li><span>Gender:</span> ${additional.gender}</li>`;
             if (additional.accompanied) summaryHTML += `<li><span>Accompanied:</span> ${additional.accompanied}</li>`;
             if (additional.inTransit) summaryHTML += `<li><span>In Transit:</span> ${additional.inTransit}</li>`;
-            if (additional.timeOccurred) summaryHTML += `<li><span>Time Occurred:</span> ${additional.timeOccurred}</li>`;
+            if (additional.timeOccurred) summaryHTML += `<li><span>Time:</span> ${additional.timeOccurred}</li>`;
 
             // Primary Assessment
             if (primary.levelOfConsciousness.loc1) {
-                summaryHTML += `<li><span>Level of Consciousness:</span> ${primary.levelOfConsciousness.loc1}</li>`;
+                summaryHTML += `<li><span>Consciousness:</span> ${primary.levelOfConsciousness.loc1}</li>`;
             }
             if (primary.airwayAndBreathing.airway.airway1) {
-                summaryHTML += `<li><span>Airway Status:</span> ${primary.airwayAndBreathing.airway.airway1}</li>`;
+                summaryHTML += `<li><span>Airway:</span> ${primary.airwayAndBreathing.airway.airway1}</li>`;
             }
             if (primary.airwayAndBreathing.breathing.breathing1) {
-                summaryHTML += `<li><span>Breathing Status:</span> ${primary.airwayAndBreathing.breathing.breathing1}</li>`;
+                summaryHTML += `<li><span>Breathing:</span> ${primary.airwayAndBreathing.breathing.breathing1}</li>`;
             }
             if (primary.circulation.circ1) {
-                summaryHTML += `<li><span>Circulation Status:</span> ${primary.circulation.circ1}</li>`;
+                summaryHTML += `<li><span>Circulation:</span> ${primary.circulation.circ1}</li>`;
             }
 
             // Secondary Assessment - SAMPLE
@@ -433,253 +463,4 @@
 
             responses.additionalInfo = {
                 seatNumber: additionalData.get("seatNumber"),
-                age: additionalData.get("age"),
-                gender: additionalData.get("gender"),
-                accompanied: additionalData.get("accompanied"),
-                inTransit: additionalData.get("inTransit"),
-                timeOccurred: additionalData.get("timeOccurred")
-            };
-
-            updateSummary(); // Actualizar el resumen con la info adicional
-        }
-
-        function saveToNotes() {
-            const allResponses = JSON.stringify(responses, null, 2); // Formato legible
-            const blob = new Blob([allResponses], { type: "text/plain;charset=utf-8" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "assessment_notes.txt";
-            link.click();
-            alert("All information saved to notes as 'assessment_notes.txt'.");
-        }
-
-        function clearAll() {
-            responses.primary = {
-                levelOfConsciousness: {},
-                airwayAndBreathing: { airway: {}, breathing: {} },
-                circulation: {}
-            };
-            responses.secondary = {};
-            responses.additionalInfo = {};
-
-            const additionalForm = document.getElementById("additional-form");
-            additionalForm.reset();
-
-            const sampleForm = document.getElementById("sample-form");
-            const dotsForm = document.getElementById("dots-form");
-            sampleForm.reset();
-            dotsForm.reset();
-
-            const summaryDiv = document.getElementById("summary");
-            summaryDiv.innerHTML = "";
-
-            alert("All data cleared. Ready to start anew.");
-        }
-    </script>
-</head>
-<body>
-    <div class="container">
-        <h1>Assessment</h1>
-        
-        <!-- Selection Screen -->
-        <section id="selection" class="selection-section">
-            <h2>Select an Assessment</h2>
-            <button onclick="showPrimary()">Primary Assessment</button>
-            <button onclick="showSecondary()">Secondary Assessment</button>
-
-            <!-- Additional Information -->
-            <div class="additional-info">
-                <form id="additional-form" onchange="updateAdditionalInfo()">
-                    <select name="seatNumber">
-                        <option value="">Select Seat Number</option>
-                        <option value="1A">1A</option>
-                        <option value="1B">1B</option>
-                        <option value="2A">2A</option>
-                        <option value="2B">2B</option>
-                        <!-- Añade más asientos según necesites -->
-                    </select>
-                    <select name="age">
-                        <option value="">Select Age</option>
-                        <option value="Child">Child (0-12)</option>
-                        <option value="Teen">Teen (13-19)</option>
-                        <option value="Adult">Adult (20-64)</option>
-                        <option value="Senior">Senior (65+)</option>
-                    </select>
-                    <select name="gender">
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <select name="accompanied">
-                        <option value="">Is Accompanied?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <select name="inTransit">
-                        <option value="">In Transit?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select>
-                    <select name="timeOccurred">
-                        <option value="">Select Time Occurred</option>
-                        <option value="00:00">00:00</option>
-                        <option value="01:00">01:00</option>
-                        <option value="02:00">02:00</option>
-                        <!-- Añade más horas según necesites -->
-                        <option value="23:00">23:00</option>
-                    </select>
-                </form>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button id="save-notes" onclick="saveToNotes()">Save to Notes</button>
-                <button id="clear-all" onclick="clearAll()">Clear All</button>
-            </div>
-
-            <!-- Summary -->
-            <div id="summary"></div>
-        </section>
-
-        <!-- Primary Assessment -->
-        <section id="primary-assessment">
-            <h2>Primary Assessment</h2>
-            <form id="primary-form">
-                <!-- Level of Consciousness -->
-                <div id="loc-block" class="block">
-                    <h3>Level of Consciousness</h3>
-                    <div class="question">
-                        <p>1. What is the patient's level of consciousness?</p>
-                        <div class="option-buttons">
-                            <button type="button" name="loc1" value="conscious" onclick="selectOption('loc1', 'conscious')">Conscious</button>
-                            <button type="button" name="loc1" value="semi-conscious" onclick="selectOption('loc1', 'semi-conscious')">Semi-Conscious</button>
-                            <button type="button" name="loc1" value="unconscious" onclick="selectOption('loc1', 'unconscious')">Unconscious</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Airway and Breathing -->
-                <div id="airway-breathing-block" class="block">
-                    <h3>Airway and Breathing</h3>
-                    <div class="sub-block">
-                        <h4>Airway</h4>
-                        <div class="question">
-                            <p>1. Airway status:</p>
-                            <div class="option-buttons">
-                                <button type="button" name="airway1" value="normal" onclick="selectOption('airway1', 'normal')">Normal</button>
-                                <button type="button" name="airway1" value="abnormal" onclick="selectOption('airway1', 'abnormal')">Abnormal</button>
-                                <button type="button" name="airway1" value="clear" onclick="selectOption('airway1', 'clear')">Clear</button>
-                                <button type="button" name="airway1" value="obstructed" onclick="selectOption('airway1', 'obstructed')">Obstructed</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sub-block">
-                        <h4>Breathing</h4>
-                        <div class="question">
-                            <p>2. Breathing status:</p>
-                            <div class="option-buttons">
-                                <button type="button" name="breathing1" value="normal" onclick="selectOption('breathing1', 'normal')">Normal</button>
-                                <button type="button" name="breathing1" value="abnormal" onclick="selectOption('breathing1', 'abnormal')">Abnormal</button>
-                                <button type="button" name="breathing1" value="fast" onclick="selectOption('breathing1', 'fast')">Fast</button>
-                                <button type="button" name="breathing1" value="slow" onclick="selectOption('breathing1', 'slow')">Slow</button>
-                                <button type="button" name="breathing1" value="shallow" onclick="selectOption('breathing1', 'shallow')">Shallow</button>
-                                <button type="button" name="breathing1" value="deep" onclick="selectOption('breathing1', 'deep')">Deep</button>
-                                <button type="button" name="breathing1" value="with_effort" onclick="selectOption('breathing1', 'with_effort')">With Effort</button>
-                                <button type="button" name="breathing1" value="wizzy_sound" onclick="selectOption('breathing1', 'wizzy_sound')">Wizzy Sound</button>
-                                <button type="button" name="breathing1" value="not_breathing" onclick="selectOption('breathing1', 'not_breathing')">Not Breathing</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Circulation -->
-                <div id="circulation-block" class="block">
-                    <h3>Circulation</h3>
-                    <div class="question">
-                        <p>1. Circulation status:</p>
-                        <div class="option-buttons">
-                            <button type="button" name="circ1" value="normal" onclick="selectOption('circ1', 'normal')">Normal</button>
-                            <button type="button" name="circ1" value="abnormal" onclick="selectOption('circ1', 'abnormal')">Abnormal</button>
-                            <button type="button" name="circ1" value="pale" onclick="selectOption('circ1', 'pale')">Pale</button>
-                            <button type="button" name="circ1" value="blue_lips" onclick="selectOption('circ1', 'blue_lips')">Blue Lips</button>
-                            <button type="button" name="circ1" value="clammy_skin" onclick="selectOption('circ1', 'clammy_skin')">Clammy Skin</button>
-                            <button type="button" name="circ1" value="cold" onclick="selectOption('circ1', 'cold')">Cold</button>
-                            <button type="button" name="circ1" value="numbness" onclick="selectOption('circ1', 'numbness')">Numbness</button>
-                            <button type="button" name="circ1" value="tingling" onclick="selectOption('circ1', 'tingling')">Tingling</button>
-                            <button type="button" name="circ1" value="cold_limbs" onclick="selectOption('circ1', 'cold_limbs')">Cold Limbs</button>
-                            <button type="button" name="circ1" value="signs_of_medical_shock" onclick="selectOption('circ1', 'signs_of_medical_shock')">Signs of Medical Shock</button>
-                            <button type="button" name="circ1" value="signs_of_bleeding" onclick="selectOption('circ1', 'signs_of_bleeding')">Signs of Bleeding</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </section>
-
-        <!-- Secondary Assessment -->
-        <section id="secondary-assessment" style="display: none;">
-            <h2>Secondary Assessment</h2>
-            <div class="selection-section">
-                <button onclick="showSample()">SAMPLE</button>
-                <button onclick="showDots()">DOTS</button>
-            </div>
-
-            <!-- SAMPLE Section -->
-            <div id="sample-section" class="block">
-                <form id="sample-form">
-                    <div class="sample-entry">
-                        <label>S</label>
-                        <input type="text" name="signsSymptoms" placeholder="Signs and Symptoms">
-                    </div>
-                    <div class="sample-entry">
-                        <label>A</label>
-                        <input type="text" name="allergies" placeholder="Allergies">
-                    </div>
-                    <div class="sample-entry">
-                        <label>M</label>
-                        <input type="text" name="medications" placeholder="Medications">
-                    </div>
-                    <div class="sample-entry">
-                        <label>P</label>
-                        <input type="text" name="pastMedicalHistory" placeholder="Past Medical History">
-                    </div>
-                    <div class="sample-entry">
-                        <label>L</label>
-                        <input type="text" name="lastMeal" placeholder="Last Meal">
-                    </div>
-                    <div class="sample-entry">
-                        <label>E</label>
-                        <input type="text" name="events" placeholder="Events">
-                    </div>
-                    <button type="button" onclick="submitSecondary()">Submit</button>
-                    <button type="button" onclick="backToSelection()">Back</button>
-                </form>
-            </div>
-
-            <!-- DOTS Section -->
-            <div id="dots-section" class="block">
-                <form id="dots-form">
-                    <div class="dots-entry">
-                        <label>D</label>
-                        <input type="text" name="deformities" placeholder="Deformities">
-                    </div>
-                    <div class="dots-entry">
-                        <label>O</label>
-                        <input type="text" name="openInjuries" placeholder="Open Injuries">
-                    </div>
-                    <div class="dots-entry">
-                        <label>T</label>
-                        <input type="text" name="tenderness" placeholder="Tenderness">
-                    </div>
-                    <div class="dots-entry">
-                        <label>S</label>
-                        <input type="text" name="swelling" placeholder="Swelling">
-                    </div>
-                    <button type="button" onclick="submitSecondary()">Submit</button>
-                    <button type="button" onclick="backToSelection()">Back</button>
-                </form>
-            </div>
-        </section>
-    </div>
-</body>
-</html>
+                age: additionalData.get("age ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
