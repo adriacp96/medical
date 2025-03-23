@@ -320,12 +320,13 @@
             width: 30px; /* Emoji-like size */
             height: 30px;
             border: none;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
             background-color: transparent;
             cursor: pointer;
             transition: transform 0.2s;
+            font-size: 24px; /* Adjust emoji size */
+            padding: 0;
+            line-height: 30px;
+            text-align: center;
         }
 
         .action-buttons button:hover {
@@ -334,14 +335,6 @@
 
         .action-buttons button:active {
             transform: scale(0.95);
-        }
-
-        .action-buttons button#save-notes {
-            background-image: url('https://i.imghippo.com/files/hrQ1530DoA.png');
-        }
-
-        .action-buttons button#clear-all {
-            background-image: url('https://i.imghippo.com/files/YgO5394rMs.png');
         }
 
         .secondary-buttons {
@@ -394,6 +387,7 @@
             .action-buttons button {
                 width: 25px;
                 height: 25px;
+                font-size: 20px; /* Slightly smaller on mobile */
             }
         }
     </style>
@@ -901,8 +895,8 @@
 
         <!-- Action Buttons at Bottom -->
         <div class="action-buttons">
-            <button id="save-notes" onclick="saveToNotes()" title="Save"></button>
-            <button id="clear-all" onclick="clearAll()" title="Clear"></button>
+            <button id="save-notes" onclick="saveToNotes()" title="Save">📥</button>
+            <button id="clear-all" onclick="clearAll()" title="Clear">❌</button>
         </div>
     </div>
 </body>
