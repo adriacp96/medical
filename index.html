@@ -462,4 +462,233 @@
 
             responses.additionalInfo = {
                 seatNumber: additionalData.get("seatNumber"),
-                age: additionalData.get("age ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+                age: additionalData.get("age"),
+                gender: additionalData.get("gender"),
+                accompanied: additionalData.get("accompanied"),
+                inTransit: additionalData.get("inTransit"),
+                timeOccurred: additionalData.get("timeOccurred")
+            };
+
+            updateSummary();
+        }
+
+        function saveToNotes() {
+            const allResponses = JSON.stringify(responses, null, 2);
+            const blob = new Blob([allResponses], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "assessment_notes.txt";
+            link.click();
+            alert("All information saved to 'assessment_notes.txt'.");
+        }
+
+        function clearAll() {
+            responses.primary = {
+                levelOfConsciousness: {},
+                airwayAndBreathing: { airway: {}, breathing: {} },
+                circulation: {}
+            };
+            responses.secondary = {};
+            responses.additionalInfo = {};
+
+            const additionalForm = document.getElementById("additional-form");
+            additionalForm.reset();
+
+            const sampleForm = document.getElementById("sample-form");
+            const dotsForm = document.getElementById("dots-form");
+            sampleForm.reset();
+            dotsForm.reset();
+
+            const summaryDiv = document.getElementById("summary");
+            summaryDiv.innerHTML = "";
+
+            alert("All data cleared.");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Assessment</h1>
+        
+        <!-- Selection Screen -->
+        <section id="selection" class="selection-section">
+            <h2>Select an Assessment</h2>
+            <button onclick="showPrimary()">Primary</button>
+            <button onclick="showSecondary()">Secondary</button>
+
+            <!-- Additional Information -->
+            <div class="additional-info">
+                <form id="additional-form" oninput="updateAdditionalInfo()">
+                    <input type="text" name="seatNumber" placeholder="Seat Number (e.g., 1A)">
+                    <input type="text" name="age" placeholder="Age (e.g., 35)">
+                    <select name="gender">
+                        <option value="">Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select name="accompanied">
+                        <option value="">Accompanied?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <select name="inTransit">
+                        <option value="">In Transit?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <input type="text" name="timeOccurred" placeholder="Time (e.g., 14:00)">
+                </form>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="save-notes" onclick="saveToNotes()">Save</button>
+                <button id="clear-all" onclick="clearAll()">Clear</button>
+            </div>
+
+            <!-- Summary -->
+            <div id="summary"></div>
+        </section>
+
+        <!-- Primary Assessment -->
+        <section id="primary-assessment">
+            <h2>Primary Assessment</h2>
+            <form id="primary-form">
+                <!-- Level of Consciousness -->
+                <div id="loc-block" class="block">
+                    <h3>Consciousness</h3>
+                    <div class="question">
+                        <p>1. Level of consciousness?</p>
+                        <div class="option-buttons">
+                            <button type="button" name="loc1" value="conscious" onclick="selectOption('loc1', 'conscious')">Conscious</button>
+                            <button type="button" name="loc1" value="semi-conscious" onclick="selectOption('loc1', 'semi-conscious')">Semi</button>
+                            <button type="button" name="loc1" value="unconscious" onclick="selectOption('loc1', 'unconscious')">Unconscious</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Airway and Breathing -->
+                <div id="airway-breathing-block" class="block">
+                    <h3>Airway & Breathing</h3>
+                    <div class="sub-block">
+                        <h4>Airway</h4>
+                        <div class="question">
+                            <p>1. Airway status:</p>
+                            <div class="option-buttons">
+                                <button type="button" name="airway1" value="normal" onclick="selectOption('airway1', 'normal')">Normal</button>
+                                <button type="button" name="airway1" value="abnormal" onclick="selectOption('airway1', 'abnormal')">Abnormal</button>
+                                <button type="button" name="airway1" value="clear" onclick="selectOption('airway1', 'clear')">Clear</button>
+                                <button type="button" name="airway1" value="obstructed" onclick="selectOption('airway1', 'obstructed')">Obstructed</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-block">
+                        <h4>Breathing</h4>
+                        <div class="question">
+                            <p>2. Breathing status:</p>
+                            <div class="option-buttons">
+                                <button type="button" name="breathing1" value="normal" onclick="selectOption('breathing1', 'normal')">Normal</button>
+                                <button type="button" name="breathing1" value="abnormal" onclick="selectOption('breathing1', 'abnormal')">Abnormal</button>
+                                <button type="button" name="breathing1" value="fast" onclick="selectOption('breathing1', 'fast')">Fast</button>
+                                <button type="button" name="breathing1" value="slow" onclick="selectOption('breathing1', 'slow')">Slow</button>
+                                <button type="button" name="breathing1" value="shallow" onclick="selectOption('breathing1', 'shallow')">Shallow</button>
+                                <button type="button" name="breathing1" value="deep" onclick="selectOption('breathing1', 'deep')">Deep</button>
+                                <button type="button" name="breathing1" value="with_effort" onclick="selectOption('breathing1', 'with_effort')">Effort</button>
+                                <button type="button" name="breathing1" value="wizzy_sound" onclick="selectOption('breathing1', 'wizzy_sound')">Wizzy</button>
+                                <button type="button" name="breathing1" value="not_breathing" onclick="selectOption('breathing1', 'not_breathing')">Not</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Circulation -->
+                <div id="circulation-block" class="block">
+                    <h3>Circulation</h3>
+                    <div class="question">
+                        <p>1. Circulation status:</p>
+                        <div class="option-buttons">
+                            <button type="button" name="circ1" value="normal" onclick="selectOption('circ1', 'normal')">Normal</button>
+                            <button type="button" name="circ1" value="abnormal" onclick="selectOption('circ1', 'abnormal')">Abnormal</button>
+                            <button type="button" name="circ1" value="pale" onclick="selectOption('circ1', 'pale')">Pale</button>
+                            <button type="button" name="circ1" value="blue_lips" onclick="selectOption('circ1', 'blue_lips')">Blue Lips</button>
+                            <button type="button" name="circ1" value="clammy_skin" onclick="selectOption('circ1', 'clammy_skin')">Clammy</button>
+                            <button type="button" name="circ1" value="cold" onclick="selectOption('circ1', 'cold')">Cold</button>
+                            <button type="button" name="circ1" value="numbness" onclick="selectOption('circ1', 'numbness')">Numb</button>
+                            <button type="button" name="circ1" value="tingling" onclick="selectOption('circ1', 'tingling')">Tingle</button>
+                            <button type="button" name="circ1" value="cold_limbs" onclick="selectOption('circ1', 'cold_limbs')">Cold Limbs</button>
+                            <button type="button" name="circ1" value="signs_of_medical_shock" onclick="selectOption('circ1', 'signs_of_medical_shock')">Shock</button>
+                            <button type="button" name="circ1" value="signs_of_bleeding" onclick="selectOption('circ1', 'signs_of_bleeding')">Bleeding</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- Secondary Assessment -->
+        <section id="secondary-assessment" style="display: none;">
+            <h2>Secondary Assessment</h2>
+            <div class="selection-section">
+                <button onclick="showSample()">SAMPLE</button>
+                <button onclick="showDots()">DOTS</button>
+            </div>
+
+            <!-- SAMPLE Section -->
+            <div id="sample-section" class="block">
+                <form id="sample-form">
+                    <div class="sample-entry">
+                        <label>S</label>
+                        <input type="text" name="signsSymptoms" placeholder="Signs and Symptoms">
+                    </div>
+                    <div class="sample-entry">
+                        <label>A</label>
+                        <input type="text" name="allergies" placeholder="Allergies">
+                    </div>
+                    <div class="sample-entry">
+                        <label>M</label>
+                        <input type="text" name="medications" placeholder="Medications">
+                    </div>
+                    <div class="sample-entry">
+                        <label>P</label>
+                        <input type="text" name="pastMedicalHistory" placeholder="Past Medical History">
+                    </div>
+                    <div class="sample-entry">
+                        <label>L</label>
+                        <input type="text" name="lastMeal" placeholder="Last Meal">
+                    </div>
+                    <div class="sample-entry">
+                        <label>E</label>
+                        <input type="text" name="events" placeholder="Events">
+                    </div>
+                    <button type="button" onclick="submitSecondary()">Submit</button>
+                    <button type="button" onclick="backToSelection()">Back</button>
+                </form>
+            </div>
+
+            <!-- DOTS Section -->
+            <div id="dots-section" class="block">
+                <form id="dots-form">
+                    <div class="dots-entry">
+                        <label>D</label>
+                        <input type="text" name="deformities" placeholder="Deformities">
+                    </div>
+                    <div class="dots-entry">
+                        <label>O</label>
+                        <input type="text" name="openInjuries" placeholder="Open Injuries">
+                    </div>
+                    <div class="dots-entry">
+                        <label>T</label>
+                        <input type="text" name="tenderness" placeholder="Tenderness">
+                    </div>
+                    <div class="dots-entry">
+                        <label>S</label>
+                        <input type="text" name="swelling" placeholder="Swelling">
+                    </div>
+                    <button type="button" onclick="submitSecondary()">Submit</button>
+                    <button type="button" onclick="backToSelection()">Back</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
