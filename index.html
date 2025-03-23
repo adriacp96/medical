@@ -21,6 +21,9 @@
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 20px); /* Ensure container takes full height */
         }
 
         h1, h2 {
@@ -90,9 +93,9 @@
 
         .option-buttons {
             display: flex;
-            flex-wrap: nowrap; /* Prevent wrapping to keep buttons in one line */
+            flex-wrap: nowrap;
             gap: 5px;
-            overflow-x: auto; /* Add horizontal scroll if needed on small screens */
+            overflow-x: auto;
         }
 
         .option-buttons button {
@@ -119,6 +122,13 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
+        /* Airway Status Color Coding */
+        .option-buttons button[name="airway1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
+        .option-buttons button[name="airway1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
+        .option-buttons button[name="airway1"][value="clear"] { background: linear-gradient(135deg, #ffb300, #ff8f00); color: black; }
+        .option-buttons button[name="airway1"][value="obstructed"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+        .option-buttons button[name="airway1"]:hover:not(.selected) { filter: brightness(85%); }
+
         /* Breathing Status Color Coding */
         .option-buttons button[name="breathing1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
         .option-buttons button[name="breathing1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
@@ -129,9 +139,15 @@
         .option-buttons button[name="breathing1"][value="with_effort"] { background: linear-gradient(135deg, #ff8f00, #f57c00); color: white; }
         .option-buttons button[name="breathing1"][value="wizzy_sound"] { background: linear-gradient(135deg, #f57c00, #ef6c00); color: white; }
         .option-buttons button[name="breathing1"][value="not_breathing"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+        .option-buttons button[name="breathing1"]:hover:not(.selected) { filter: brightness(85%); }
 
-        .option-buttons button[name="breathing1"]:hover:not(.selected) {
-            filter: brightness(85%);
+        /* Circulation Status: 4 buttons per line */
+        #circulation-block .option-buttons {
+            flex-wrap: wrap;
+        }
+        #circulation-block .option-buttons button {
+            flex: 0 0 calc(25% - 5px); /* 25% width minus gap */
+            min-width: 0;
         }
 
         .sample-entry, .dots-entry {
@@ -214,7 +230,7 @@
             color: #333;
         }
 
-        .additional-info {
+        .passenger-data {
             margin-top: 10px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -225,14 +241,14 @@
             gap: 5px;
         }
 
-        .additional-info .inline-group {
+        .passenger-data .inline-group {
             display: flex;
             gap: 5px;
             width: 100%;
         }
 
-        .additional-info .inline-group input[type="text"],
-        .additional-info .inline-group select {
+        .passenger-data .inline-group input[type="text"],
+        .passenger-data .inline-group select {
             flex: 1;
             padding: 5px;
             margin: 0;
@@ -243,8 +259,8 @@
             min-width: 0;
         }
 
-        .additional-info select,
-        .additional-info input[type="text"] {
+        .passenger-data select,
+        .passenger-data input[type="text"] {
             width: 100%;
             padding: 5px;
             margin: 5px 0 0 0;
@@ -257,7 +273,8 @@
         .action-buttons {
             display: flex;
             gap: 5px;
-            margin-top: 10px;
+            margin-top: auto; /* Push to bottom */
+            padding-top: 10px;
         }
 
         .action-buttons button {
@@ -282,6 +299,19 @@
             background: linear-gradient(135deg, #c82333, #b21f2d);
         }
 
+        /* Secondary Assessment Buttons */
+        .secondary-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        .secondary-buttons button {
+            width: 48%;
+            max-width: 200px;
+        }
+
         @media (max-width: 375px) {
             .selection-section button {
                 width: 100%;
@@ -289,15 +319,23 @@
             }
 
             .option-buttons {
-                flex-wrap: wrap; /* Allow wrapping on very small screens */
+                flex-wrap: wrap;
             }
 
-            .option-buttons button {
-                min-width: 60px;
+            #circulation-block .option-buttons button {
+                flex: 0 0 calc(50% - 5px); /* 2 per line on small screens */
             }
 
-            .additional-info .inline-group {
+            .passenger-data .inline-group {
                 flex-direction: column;
+            }
+
+            .secondary-buttons {
+                flex-direction: column;
+            }
+
+            .secondary-buttons button {
+                width: 100%;
             }
         }
     </style>
@@ -475,7 +513,6 @@
 
             let summaryHTML = "<h3>Summary</h3><ul>";
 
-            // Additional Info
             if (additional.seatNumber) summaryHTML += `<li><span>Seat:</span> ${additional.seatNumber}</li>`;
             if (additional.age) summaryHTML += `<li><span>Age:</span> ${additional.age}</li>`;
             if (additional.gender) summaryHTML += `<li><span>Gender:</span> ${additional.gender}</li>`;
@@ -483,7 +520,6 @@
             if (additional.inTransit) summaryHTML += `<li><span>In Transit:</span> ${additional.inTransit}</li>`;
             if (additional.timeOccurred) summaryHTML += `<li><span>Time:</span> ${additional.timeOccurred}</li>`;
 
-            // Primary Assessment
             if (primary.levelOfConsciousness.loc1) {
                 summaryHTML += `<li><span>Consciousness:</span> ${primary.levelOfConsciousness.loc1}</li>`;
             }
@@ -497,7 +533,6 @@
                 summaryHTML += `<li><span>Circulation:</span> ${primary.circulation.circ1}</li>`;
             }
 
-            // Secondary Assessment - SAMPLE
             if (secondary.sample && Object.keys(secondary.sample).length > 0) {
                 summaryHTML += `<li><span>SAMPLE:</span></li>`;
                 if (secondary.sample.signsSymptoms) summaryHTML += `<li>  S: ${secondary.sample.signsSymptoms}</li>`;
@@ -508,7 +543,6 @@
                 if (secondary.sample.events) summaryHTML += `<li>  E: ${secondary.sample.events}</li>`;
             }
 
-            // Secondary Assessment - DOTS
             if (secondary.dots && Object.keys(secondary.dots).length > 0) {
                 summaryHTML += `<li><span>DOTS:</span></li>`;
                 if (secondary.dots.deformities) summaryHTML += `<li>  D: ${secondary.dots.deformities}</li>`;
@@ -545,9 +579,8 @@
             let textContent = "Assessment Notes\n";
             textContent += "================\n\n";
 
-            // Additional Information
-            textContent += "Additional Information:\n";
-            textContent += "-----------------------\n";
+            textContent += "Passenger Data:\n";
+            textContent += "---------------\n";
             textContent += additional.seatNumber ? `Seat Number: ${additional.seatNumber}\n` : "";
             textContent += additional.age ? `Age: ${additional.age}\n` : "";
             textContent += additional.gender ? `Gender: ${additional.gender}\n` : "";
@@ -556,7 +589,6 @@
             textContent += additional.timeOccurred ? `Time: ${additional.timeOccurred}\n` : "";
             textContent += "\n";
 
-            // Primary Assessment
             textContent += "Primary Assessment:\n";
             textContent += "-------------------\n";
             textContent += primary.levelOfConsciousness.loc1 ? `Level of Consciousness: ${primary.levelOfConsciousness.loc1}\n` : "";
@@ -565,7 +597,6 @@
             textContent += primary.circulation.circ1 ? `Circulation: ${primary.circulation.circ1}\n` : "";
             textContent += "\n";
 
-            // Secondary Assessment
             textContent += "Secondary Assessment:\n";
             textContent += "---------------------\n";
             if (secondary.sample && Object.keys(secondary.sample).length > 0) {
@@ -623,8 +654,8 @@
 
         <!-- Selection Screen -->
         <section id="selection" class="selection-section">
-            <!-- Additional Information -->
-            <div class="additional-info">
+            <!-- Passenger Data -->
+            <div class="passenger-data">
                 <form id="additional-form" oninput="updateAdditionalInfo()">
                     <div class="inline-group">
                         <input type="text" name="seatNumber" placeholder="Seat (e.g., 1A)">
@@ -655,12 +686,6 @@
             <h2>Select an Assessment</h2>
             <button onclick="showPrimary()">Primary</button>
             <button onclick="showSecondary()">Secondary</button>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button id="save-notes" onclick="saveToNotes()">Save</button>
-                <button id="clear-all" onclick="clearAll()">Clear</button>
-            </div>
 
             <!-- Summary -->
             <div id="summary"></div>
@@ -743,7 +768,7 @@
         <!-- Secondary Assessment -->
         <section id="secondary-assessment" style="display: none;">
             <h2>Secondary Assessment</h2>
-            <div class="selection-section">
+            <div class="secondary-buttons">
                 <button onclick="showSample()">SAMPLE</button>
                 <button onclick="showDots()">DOTS</button>
             </div>
@@ -804,6 +829,12 @@
                 </form>
             </div>
         </section>
+
+        <!-- Action Buttons at Bottom -->
+        <div class="action-buttons">
+            <button id="save-notes" onclick="saveToNotes()">Save</button>
+            <button id="clear-all" onclick="clearAll()">Clear</button>
+        </div>
     </div>
 </body>
 </html>
