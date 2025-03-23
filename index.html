@@ -15,6 +15,9 @@
             margin: 0;
             padding: 10px;
             text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
@@ -29,6 +32,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex-grow: 1;
         }
 
         h1, h2, h3, h4, p {
@@ -101,6 +105,13 @@
             justify-content: center;
         }
 
+        /* Stack breathing buttons vertically */
+        #airway-breathing-block .option-buttons:nth-child(2) {
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
         .option-buttons button {
             padding: 5px 10px;
             background: linear-gradient(135deg, #e0e0e0, #d0d0d0);
@@ -150,7 +161,7 @@
         .option-buttons button[name="breathing1"][value="not_breathing"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
         .option-buttons button[name="breathing1"]:hover:not(.selected) { filter: brightness(85%); }
 
-        /* Circulation Status: 4 buttons per line, multiple selections */
+        /* Circulation Status: Multiple selections */
         #circulation-block .option-buttons {
             flex-wrap: wrap;
         }
@@ -293,38 +304,43 @@
 
         .action-buttons {
             display: flex;
-            gap: 5px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 20px;
             justify-content: center;
             width: 100%;
+            padding-bottom: 20px;
         }
 
         .action-buttons button {
-            width: 50%;
-            padding: 8px;
-            font-size: 0.9em;
-            max-width: 150px;
+            width: 60px;
+            height: 60px;
+            border: none;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            height: 40px; /* Ajustar altura para que el icono se vea bien */
-            text-indent: -9999px; /* Ocultar texto */
+            background-color: transparent;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 50%;
+        }
+
+        .action-buttons button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-buttons button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .action-buttons button#save-notes {
             background-image: url('https://i.imghippo.com/files/hrQ1530DoA.png');
         }
 
-        .action-buttons button#save-notes:hover {
-            filter: brightness(90%);
-        }
-
         .action-buttons button#clear-all {
             background-image: url('https://i.imghippo.com/files/YgO5394rMs.png');
-        }
-
-        .action-buttons button#clear-all:hover {
-            filter: brightness(90%);
         }
 
         .secondary-buttons {
@@ -371,14 +387,17 @@
             .action-buttons {
                 flex-direction: column;
                 align-items: center;
+                gap: 15px;
             }
 
             .action-buttons button {
-                width: 100%;
+                width: 50px;
+                height: 50px;
             }
         }
     </style>
     <script>
+        // [JavaScript remains unchanged]
         let currentBlock = 0;
         const blocks = ["loc-block", "airway-breathing-block", "circulation-block"];
         const responses = {
@@ -739,12 +758,6 @@
 
             <!-- Summary -->
             <div id="summary"></div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button id="save-notes" onclick="saveToNotes()">Save</button>
-                <button id="clear-all" onclick="clearAll()">Clear</button>
-            </div>
         </section>
 
         <!-- Primary Assessment -->
@@ -885,6 +898,12 @@
                 </form>
             </div>
         </section>
+
+        <!-- Action Buttons at Bottom -->
+        <div class="action-buttons">
+            <button id="save-notes" onclick="saveToNotes()" title="Save"></button>
+            <button id="clear-all" onclick="clearAll()" title="Clear"></button>
+        </div>
     </div>
 </body>
 </html>
