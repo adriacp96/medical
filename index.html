@@ -90,8 +90,9 @@
 
         .option-buttons {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Prevent wrapping to keep buttons in one line */
             gap: 5px;
+            overflow-x: auto; /* Add horizontal scroll if needed on small screens */
         }
 
         .option-buttons button {
@@ -116,6 +117,21 @@
             background: linear-gradient(135deg, #007BFF, #0056b3);
             color: white;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Breathing Status Color Coding */
+        .option-buttons button[name="breathing1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
+        .option-buttons button[name="breathing1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
+        .option-buttons button[name="breathing1"][value="fast"] { background: linear-gradient(135deg, #ffee58, #ffca28); color: black; }
+        .option-buttons button[name="breathing1"][value="slow"] { background: linear-gradient(135deg, #fff176, #ffd54f); color: black; }
+        .option-buttons button[name="breathing1"][value="shallow"] { background: linear-gradient(135deg, #fdd835, #ffb300); color: black; }
+        .option-buttons button[name="breathing1"][value="deep"] { background: linear-gradient(135deg, #ffb300, #ff8f00); color: black; }
+        .option-buttons button[name="breathing1"][value="with_effort"] { background: linear-gradient(135deg, #ff8f00, #f57c00); color: white; }
+        .option-buttons button[name="breathing1"][value="wizzy_sound"] { background: linear-gradient(135deg, #f57c00, #ef6c00); color: white; }
+        .option-buttons button[name="breathing1"][value="not_breathing"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+
+        .option-buttons button[name="breathing1"]:hover:not(.selected) {
+            filter: brightness(85%);
         }
 
         .sample-entry, .dots-entry {
@@ -270,6 +286,10 @@
             .selection-section button {
                 width: 100%;
                 margin: 5px 0;
+            }
+
+            .option-buttons {
+                flex-wrap: wrap; /* Allow wrapping on very small screens */
             }
 
             .option-buttons button {
