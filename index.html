@@ -8,9 +8,11 @@
     <title>Assessment</title>
     <link rel="icon" href="https://i.imghippo.com/files/CoL9362nic.png" type="image/png">
     <link rel="apple-touch-icon" href="https://i.imghippo.com/files/CoL9362nic.png">
+    <!-- Emirates Font from FontsGeek -->
+    <link href="https://fonts.googleapis.com/css?family=Emirates" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Emirates', Arial, sans-serif; /* Use Emirates font, fallback to Arial */
             background-color: #f4f4f4;
             margin: 0;
             padding: 10px;
@@ -105,9 +107,10 @@
             justify-content: center;
         }
 
-        /* Ensure Airway options stay in one line */
+        /* Ensure Airway options stay in one horizontal line */
         #airway-breathing-block .option-buttons:first-child {
             flex-wrap: nowrap;
+            white-space: nowrap;
         }
 
         /* Stack Breathing buttons vertically */
@@ -268,9 +271,9 @@
             border-radius: 4px;
             background-color: #f9f9f9;
             display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            justify-content: center;
+            flex-direction: column; /* Stack vertically */
+            gap: 10px; /* Space between lines */
+            align-items: center;
             width: 100%;
             max-width: 600px;
         }
@@ -280,6 +283,7 @@
             gap: 5px;
             width: 100%;
             justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
         }
 
         .passenger-data .inline-group input[type="text"],
@@ -299,7 +303,6 @@
         .passenger-data input[type="text"] {
             width: 100%;
             padding: 5px;
-            margin: 5px 0 0 0;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 0.8em;
@@ -309,7 +312,7 @@
 
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 20px; /* Increased gap between buttons */
             margin-top: 20px;
             justify-content: center;
             width: 100%;
@@ -317,13 +320,13 @@
         }
 
         .action-buttons button {
-            width: 30px; /* Emoji-like size */
+            width: 30px;
             height: 30px;
             border: none;
             background-color: transparent;
             cursor: pointer;
             transition: transform 0.2s;
-            font-size: 24px; /* Adjust emoji size */
+            font-size: 24px;
             padding: 0;
             line-height: 30px;
             text-align: center;
@@ -387,7 +390,7 @@
             .action-buttons button {
                 width: 25px;
                 height: 25px;
-                font-size: 20px; /* Slightly smaller on mobile */
+                font-size: 20px;
             }
         }
     </style>
