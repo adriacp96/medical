@@ -105,7 +105,12 @@
             justify-content: center;
         }
 
-        /* Stack breathing buttons vertically */
+        /* Ensure Airway options stay in one line */
+        #airway-breathing-block .option-buttons:first-child {
+            flex-wrap: nowrap;
+        }
+
+        /* Stack Breathing buttons vertically */
         #airway-breathing-block .option-buttons:nth-child(2) {
             flex-direction: column;
             align-items: center;
@@ -312,27 +317,23 @@
         }
 
         .action-buttons button {
-            width: 60px;
-            height: 60px;
+            width: 30px; /* Emoji-like size */
+            height: 30px;
             border: none;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             background-color: transparent;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-radius: 50%;
+            transition: transform 0.2s;
         }
 
         .action-buttons button:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
         }
 
         .action-buttons button:active {
             transform: scale(0.95);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .action-buttons button#save-notes {
@@ -391,13 +392,12 @@
             }
 
             .action-buttons button {
-                width: 50px;
-                height: 50px;
+                width: 25px;
+                height: 25px;
             }
         }
     </style>
     <script>
-        // [JavaScript remains unchanged]
         let currentBlock = 0;
         const blocks = ["loc-block", "airway-breathing-block", "circulation-block"];
         const responses = {
