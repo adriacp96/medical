@@ -21,9 +21,6 @@
             border-radius: 8px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            min-height: calc(100vh - 20px); /* Ensure container takes full height */
         }
 
         h1, h2 {
@@ -122,6 +119,12 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
+        /* Level of Consciousness Color Coding */
+        .option-buttons button[name="loc1"][value="conscious"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
+        .option-buttons button[name="loc1"][value="semi-conscious"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
+        .option-buttons button[name="loc1"][value="unconscious"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+        .option-buttons button[name="loc1"]:hover:not(.selected) { filter: brightness(85%); }
+
         /* Airway Status Color Coding */
         .option-buttons button[name="airway1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
         .option-buttons button[name="airway1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
@@ -141,7 +144,7 @@
         .option-buttons button[name="breathing1"][value="not_breathing"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
         .option-buttons button[name="breathing1"]:hover:not(.selected) { filter: brightness(85%); }
 
-        /* Circulation Status: 4 buttons per line */
+        /* Circulation Status: 4 buttons per line, multiple selections */
         #circulation-block .option-buttons {
             flex-wrap: wrap;
         }
@@ -273,8 +276,7 @@
         .action-buttons {
             display: flex;
             gap: 5px;
-            margin-top: auto; /* Push to bottom */
-            padding-top: 10px;
+            margin-top: 10px;
         }
 
         .action-buttons button {
@@ -299,7 +301,6 @@
             background: linear-gradient(135deg, #c82333, #b21f2d);
         }
 
-        /* Secondary Assessment Buttons */
         .secondary-buttons {
             display: flex;
             gap: 5px;
@@ -323,7 +324,7 @@
             }
 
             #circulation-block .option-buttons button {
-                flex: 0 0 calc(50% - 5px); /* 2 per line on small screens */
+                flex: 0 0 calc(50% - 5px);
             }
 
             .passenger-data .inline-group {
@@ -346,7 +347,7 @@
             primary: {
                 levelOfConsciousness: {},
                 airwayAndBreathing: { airway: {}, breathing: {} },
-                circulation: {}
+                circulation: [] // Array for multiple selections
             },
             secondary: {},
             additionalInfo: {}
@@ -439,11 +440,19 @@
                     }
                 }
             } else if (name === "circ1") {
-                responses.primary.circulation.circ1 = value;
+                const index = responses.primary.circulation.indexOf(value);
+                if (index === -1) {
+                    responses.primary.circulation.push(value); // Add if not selected
+                } else {
+                    responses.primary.circulation.splice(index, 1); // Remove if already selected
+                }
                 const buttons = document.getElementsByName(name);
                 buttons.forEach(btn => {
-                    btn.classList.remove("selected");
-                    if (btn.value === value) btn.classList.add("selected");
+                    if (responses.primary.circulation.includes(btn.value)) {
+                        btn.classList.add("selected");
+                    } else {
+                        btn.classList.remove("selected");
+                    }
                 });
                 if (currentBlock === blocks.length - 1) {
                     submitPrimary();
@@ -529,8 +538,8 @@
             if (primary.airwayAndBreathing.breathing.breathing1) {
                 summaryHTML += `<li><span>Breathing:</span> ${primary.airwayAndBreathing.breathing.breathing1}</li>`;
             }
-            if (primary.circulation.circ1) {
-                summaryHTML += `<li><span>Circulation:</span> ${primary.circulation.circ1}</li>`;
+            if (primary.circulation.length > 0) {
+                summaryHTML += `<li><span>Circulation:</span> ${primary.circulation.join(", ")}</li>`;
             }
 
             if (secondary.sample && Object.keys(secondary.sample).length > 0) {
@@ -594,7 +603,7 @@
             textContent += primary.levelOfConsciousness.loc1 ? `Level of Consciousness: ${primary.levelOfConsciousness.loc1}\n` : "";
             textContent += primary.airwayAndBreathing.airway.airway1 ? `Airway: ${primary.airwayAndBreathing.airway.airway1}\n` : "";
             textContent += primary.airwayAndBreathing.breathing.breathing1 ? `Breathing: ${primary.airwayAndBreathing.breathing.breathing1}\n` : "";
-            textContent += primary.circulation.circ1 ? `Circulation: ${primary.circulation.circ1}\n` : "";
+            textContent += primary.circulation.length > 0 ? `Circulation: ${primary.circulation.join(", ")}\n` : "";
             textContent += "\n";
 
             textContent += "Secondary Assessment:\n";
@@ -628,7 +637,7 @@
             responses.primary = {
                 levelOfConsciousness: {},
                 airwayAndBreathing: { airway: {}, breathing: {} },
-                circulation: {}
+                circulation: []
             };
             responses.secondary = {};
             responses.additionalInfo = {};
@@ -640,6 +649,9 @@
             const dotsForm = document.getElementById("dots-form");
             sampleForm.reset();
             dotsForm.reset();
+
+            const buttons = document.querySelectorAll('.option-buttons button');
+            buttons.forEach(btn => btn.classList.remove("selected"));
 
             const summaryDiv = document.getElementById("summary");
             summaryDiv.innerHTML = "";
@@ -689,6 +701,12 @@
 
             <!-- Summary -->
             <div id="summary"></div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="save-notes" onclick="saveToNotes()">Save</button>
+                <button id="clear-all" onclick="clearAll()">Clear</button>
+            </div>
         </section>
 
         <!-- Primary Assessment -->
@@ -762,6 +780,12 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="save-notes" onclick="saveToNotes()">Save</button>
+                    <button id="clear-all" onclick="clearAll()">Clear</button>
+                </div>
             </form>
         </section>
 
@@ -828,13 +852,13 @@
                     <button type="button" onclick="backToSelection()">Back</button>
                 </form>
             </div>
-        </section>
 
-        <!-- Action Buttons at Bottom -->
-        <div class="action-buttons">
-            <button id="save-notes" onclick="saveToNotes()">Save</button>
-            <button id="clear-all" onclick="clearAll()">Clear</button>
-        </div>
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="save-notes" onclick="saveToNotes()">Save</button>
+                <button id="clear-all" onclick="clearAll()">Clear</button>
+            </div>
+        </section>
     </div>
 </body>
 </html>
