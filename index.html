@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Assessment</title>
+    <link rel="icon" href="https://i.imghippo.com/files/CoL9362nic.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://i.imghippo.com/files/CoL9362nic.png">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 10px;
-            text-align: center; /* Centrar todo el texto en el body */
+            text-align: center;
         }
 
         .container {
@@ -24,11 +28,11 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centrar contenido horizontalmente */
+            align-items: center;
         }
 
         h1, h2, h3, h4, p {
-            text-align: center; /* Centrar específicamente títulos y párrafos */
+            text-align: center;
             margin: 5px 0;
         }
 
@@ -71,7 +75,7 @@
             transition: opacity 0.3s ease-in-out;
             display: none;
             width: 100%;
-            max-width: 600px; /* Limitar ancho para mejor estética */
+            max-width: 600px;
             text-align: center;
         }
 
@@ -94,7 +98,7 @@
             flex-wrap: nowrap;
             gap: 5px;
             overflow-x: auto;
-            justify-content: center; /* Centrar botones horizontalmente */
+            justify-content: center;
         }
 
         .option-buttons button {
@@ -151,14 +155,14 @@
             flex-wrap: wrap;
         }
         #circulation-block .option-buttons button {
-            flex: 0 0 calc(25% - 5px); /* 25% width minus gap */
+            flex: 0 0 calc(25% - 5px);
             min-width: 0;
         }
 
         .sample-entry, .dots-entry {
             display: flex;
             align-items: center;
-            justify-content: center; /* Centrar elementos horizontalmente */
+            justify-content: center;
             margin-bottom: 8px;
             width: 100%;
         }
@@ -177,14 +181,12 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 0.8em;
-            max-width: 300px; /* Limitar ancho para mejor control */
+            max-width: 300px;
         }
 
         button {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg, #007BFF, #0056b3);
-            color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -192,11 +194,10 @@
             font-size: 0.9em;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
-            max-width: 200px; /* Limitar ancho de botones individuales */
+            max-width: 200px;
         }
 
         button:hover {
-            background: linear-gradient(135deg, #0056b3, #003d82);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -215,14 +216,14 @@
             font-size: 0.8em;
             width: 100%;
             max-width: 600px;
-            text-align: left; /* Mantener texto a la izquierda para legibilidad */
+            text-align: left;
         }
 
         #summary h3 {
             margin: 0 0 5px 0;
             color: #007BFF;
             font-size: 1em;
-            text-align: center; /* Centrar el título del summary */
+            text-align: center;
         }
 
         #summary ul {
@@ -253,7 +254,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
-            justify-content: center; /* Centrar elementos */
+            justify-content: center;
             width: 100%;
             max-width: 600px;
         }
@@ -262,7 +263,7 @@
             display: flex;
             gap: 5px;
             width: 100%;
-            justify-content: center; /* Centrar elementos en el grupo */
+            justify-content: center;
         }
 
         .passenger-data .inline-group input[type="text"],
@@ -275,7 +276,7 @@
             font-size: 0.8em;
             box-sizing: border-box;
             min-width: 0;
-            max-width: 150px; /* Limitar ancho para mejor control */
+            max-width: 150px;
         }
 
         .passenger-data select,
@@ -294,7 +295,7 @@
             display: flex;
             gap: 5px;
             margin-top: 10px;
-            justify-content: center; /* Centrar botones de acción */
+            justify-content: center;
             width: 100%;
         }
 
@@ -302,23 +303,28 @@
             width: 50%;
             padding: 8px;
             font-size: 0.9em;
-            max-width: 150px; /* Limitar ancho de los botones */
+            max-width: 150px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 40px; /* Ajustar altura para que el icono se vea bien */
+            text-indent: -9999px; /* Ocultar texto */
         }
 
         .action-buttons button#save-notes {
-            background: linear-gradient(135deg, #28a745, #218838);
+            background-image: url('https://i.imghippo.com/files/hrQ1530DoA.png');
         }
 
         .action-buttons button#save-notes:hover {
-            background: linear-gradient(135deg, #218838, #1c7430);
+            filter: brightness(90%);
         }
 
         .action-buttons button#clear-all {
-            background: linear-gradient(135deg, #dc3545, #c82333);
+            background-image: url('https://i.imghippo.com/files/YgO5394rMs.png');
         }
 
         .action-buttons button#clear-all:hover {
-            background: linear-gradient(135deg, #c82333, #b21f2d);
+            filter: brightness(90%);
         }
 
         .secondary-buttons {
@@ -812,12 +818,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button id="save-notes" onclick="saveToNotes()">Save</button>
-                    <button id="clear-all" onclick="clearAll()">Clear</button>
-                </div>
             </form>
         </section>
 
@@ -883,12 +883,6 @@
                     <button type="button" onclick="submitSecondary()">Submit</button>
                     <button type="button" onclick="backToSelection()">Back</button>
                 </form>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button id="save-notes" onclick="saveToNotes()">Save</button>
-                <button id="clear-all" onclick="clearAll()">Clear</button>
             </div>
         </section>
     </div>
