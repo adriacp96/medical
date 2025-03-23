@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Mantengo el head original sin cambios -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Assessment</title>
-    <link rel="icon" href="https://i.imghippo.com/files/Mhb2694xw.png" type="image/png">
-    <link rel="apple-touch-icon" href="https://i.imghippo.com/files/Mhb2694xw.png">
+    <link rel="icon" href="https://i.imghippo.com/files/hdi6976Lw.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://i.imghippo.com/files/hdi6976Lw.png">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,7 +21,7 @@
         }
 
         .container {
-            max-width: 375px; /* Ancho típico de iPhone */
+            max-width: 375px;
             width: 100%;
             margin: 0 auto;
             background: white;
@@ -34,6 +33,7 @@
             flex-direction: column;
             align-items: center;
             flex-grow: 1;
+            position: relative; /* Para posicionamiento relativo */
         }
 
         h1, h2, h3, h4, p {
@@ -118,7 +118,8 @@
 
         #airway-breathing-block .option-buttons button {
             flex: 0 0 auto;
-            min-width: 60px;
+            width: auto;
+            min-width: 0;
             font-size: 0.75em;
             padding: 4px 6px;
         }
@@ -147,7 +148,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* Mantengo los colores específicos */
         .option-buttons button[name="loc1"][value="conscious"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
         .option-buttons button[name="loc1"][value="semi-conscious"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
         .option-buttons button[name="loc1"][value="unconscious"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
@@ -234,8 +234,15 @@
             background-color: #f9f9f9;
             font-size: 0.8em;
             width: 100%;
-            max-width: 100%;
+            max-width: 355px; /* Adaptado al iPhone con padding */
             text-align: left;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 50px; /* Colocado encima de los botones de acción */
+            left: 50%;
+            transform: translateX(-50%);
+            overflow-y: auto; /* Scroll vertical si es necesario */
+            max-height: 200px; /* Limita la altura para no ocupar toda la pantalla */
         }
 
         #summary h3 {
@@ -275,7 +282,7 @@
             gap: 8px;
             align-items: center;
             width: 100%;
-            max-width: 355px; /* Ajustado para iPhone con padding */
+            max-width: 355px;
             box-sizing: border-box;
         }
 
@@ -284,7 +291,7 @@
             gap: 5px;
             width: 100%;
             justify-content: center;
-            flex-wrap: nowrap; /* Cambiado para mantener en línea */
+            flex-wrap: nowrap;
         }
 
         .passenger-data .inline-group input[type="text"],
@@ -297,7 +304,7 @@
             font-size: 0.8em;
             box-sizing: border-box;
             min-width: 0;
-            max-width: 100px; /* Reducido para caber en iPhone */
+            max-width: 100px;
         }
 
         .passenger-data select,
@@ -314,11 +321,14 @@
         .action-buttons {
             display: flex;
             gap: 20px;
-            margin-top: 20px;
             justify-content: center;
             width: 100%;
-            padding-bottom: 20px;
-            flex-wrap: nowrap; /* Mantener en línea */
+            padding: 10px 0;
+            flex-wrap: nowrap;
+            position: absolute;
+            bottom: 0; /* Fijado al fondo del contenedor */
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .action-buttons button {
@@ -343,17 +353,17 @@
             transform: scale(0.95);
         }
 
-        .secondary-buttons {
+        .selection-buttons {
             display: flex;
             gap: 5px;
             justify-content: center;
-            margin-top: 5px;
             width: 100%;
+            flex-wrap: nowrap;
         }
 
-        .secondary-buttons button {
+        .selection-buttons button {
             width: 48%;
-            max-width: 200px;
+            max-width: 170px;
         }
 
         @media (max-width: 375px) {
@@ -361,39 +371,28 @@
             h1, h2 { font-size: 1em; }
             h3, h4 { font-size: 0.9em; }
             .selection-section button {
-                width: 100%;
-                margin: 5px 0;
+                font-size: 0.8em;
             }
             .option-buttons button {
-                min-width: 50px;
                 font-size: 0.7em;
             }
             #airway-breathing-block .option-buttons button {
-                min-width: 50px;
                 font-size: 0.65em;
             }
             #circulation-block .option-buttons button {
                 flex: 0 0 calc(50% - 5px);
             }
             .passenger-data .inline-group {
-                gap: 3px; /* Reducido para mejor ajuste */
+                gap: 3px;
             }
             .passenger-data .inline-group input,
             .passenger-data .inline-group select {
                 max-width: 90px;
             }
-            .secondary-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .secondary-buttons button {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- El HTML del body permanece igual, solo ajusto los estilos -->
     <div class="container">
         <h1>Assessment</h1>
 
@@ -427,10 +426,10 @@
             </div>
 
             <h2>Select an Assessment</h2>
-            <button onclick="showPrimary()">Primary</button>
-            <button onclick="showSecondary()">Secondary</button>
-
-            <div id="summary"></div>
+            <div class="selection-buttons">
+                <button onclick="showPrimary()">Primary</button>
+                <button onclick="showSecondary()">Secondary</button>
+            </div>
         </section>
 
         <section id="primary-assessment">
@@ -499,13 +498,15 @@
                             <button type="button" name="circ1" value="signs_of_bleeding" onclick="selectOption('circ1', 'signs_of_bleeding')">Bleeding</button>
                         </div>
                     </div>
+                    <button type="button" onclick="submitPrimary()">Submit</button>
+                    <button type="button" onclick="backToSelection()">Back</button>
                 </div>
             </form>
         </section>
 
         <section id="secondary-assessment" style="display: none;">
             <h2>Secondary Assessment</h2>
-            <div class="secondary-buttons">
+            <div class="selection-buttons">
                 <button onclick="showSample()">SAMPLE</button>
                 <button onclick="showDots()">DOTS</button>
             </div>
@@ -565,15 +566,17 @@
             </div>
         </section>
 
+        <!-- Summary movido aquí -->
+        <div id="summary"></div>
+
+        <!-- Botones de acción al final -->
         <div class="action-buttons">
             <button id="save-notes" onclick="saveToNotes()" title="Save">📥</button>
             <button id="clear-all" onclick="clearAll()" title="Clear">❌</button>
         </div>
     </div>
 
-    <!-- El script permanece sin cambios -->
     <script>
-        // [Script original sin modificaciones]
         let currentBlock = 0;
         const blocks = ["loc-block", "airway-breathing-block", "circulation-block"];
         const responses = {
@@ -687,9 +690,6 @@
                         btn.classList.remove("selected");
                     }
                 });
-                if (currentBlock === blocks.length - 1) {
-                    submitPrimary();
-                }
             }
         }
 
@@ -710,10 +710,17 @@
         }
 
         function submitPrimary() {
-            console.log("Primary Assessment Responses:", responses.primary);
-            updateSummary();
-            alert("Primary Assessment submitted. Check the summary below.");
-            backToSelection();
+            if (responses.primary.levelOfConsciousness.loc1 &&
+                responses.primary.airwayAndBreathing.airway.airway1 &&
+                responses.primary.airwayAndBreathing.breathing.breathing1 &&
+                responses.primary.circulation.length > 0) {
+                console.log("Primary Assessment Responses:", responses.primary);
+                updateSummary();
+                alert("Primary Assessment submitted. Check the summary below.");
+                backToSelection();
+            } else {
+                alert("Please complete all sections and select at least one circulation option.");
+            }
         }
 
         function submitSecondary() {
