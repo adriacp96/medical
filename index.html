@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Assessment</title>
+    <title>Medical</title>
     <link rel="icon" href="https://i.imghippo.com/files/Mhb2694xw.png" type="image/png">
     <link rel="apple-touch-icon" href="https://i.imghippo.com/files/Mhb2694xw.png">
     <style>
@@ -124,22 +124,28 @@
             padding: 4px 2px;
         }
 
-        /* Breathing buttons stacked vertically */
+        /* Breathing buttons in two columns */
         #airway-breathing-block .breathing-buttons {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 4px;
             width: 100%;
             padding: 0 5px;
             box-sizing: border-box;
+            justify-content: center;
         }
 
         #airway-breathing-block .breathing-buttons button {
-            width: 100%;
-            max-width: 200px;
-            margin: 0 auto;
+            width: calc(50% - 2px); /* Two buttons per row */
             font-size: 0.75em;
             padding: 4px 6px;
+            box-sizing: border-box;
+        }
+
+        #airway-breathing-block .breathing-buttons button[name="breathing1"][value="not_breathing"] {
+            width: 50%; /* "Not" button takes half width to center it */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .option-buttons button {
@@ -177,16 +183,17 @@
         .option-buttons button[name="airway1"][value="obstructed"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
         .option-buttons button[name="airway1"]:hover:not(.selected) { filter: brightness(85%); }
 
-        .option-buttons button[name="breathing1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
-        .option-buttons button[name="breathing1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
-        .option-buttons button[name="breathing1"][value="fast"] { background: linear-gradient(135deg, #ffee58, #ffca28); color: black; }
-        .option-buttons button[name="breathing1"][value="slow"] { background: linear-gradient(135deg, #fff176, #ffd54f); color: black; }
-        .option-buttons button[name="breathing1"][value="shallow"] { background: linear-gradient(135deg, #fdd835, #ffb300); color: black; }
-        .option-buttons button[name="breathing1"][value="deep"] { background: linear-gradient(135deg, #ffb300, #ff8f00); color: black; }
-        .option-buttons button[name="breathing1"][value="with_effort"] { background: linear-gradient(135deg, #ff8f00, #f57c00); color: white; }
-        .option-buttons button[name="breathing1"][value="wizzy_sound"] { background: linear-gradient(135deg, #f57c00, #ef6c00); color: white; }
-        .option-buttons button[name="breathing1"][value="not_breathing"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
-        .option-buttons button[name="breathing1"]:hover:not(.selected) { filter: brightness(85%); }
+        /* Breathing button colors */
+        .breathing-buttons button[name="breathing1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
+        .breathing-buttons button[name="breathing1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
+        .breathing-buttons button[name="breathing1"][value="fast"] { background: linear-gradient(135deg, #ffee58, #ffca28); color: black; }
+        .breathing-buttons button[name="breathing1"][value="slow"] { background: linear-gradient(135deg, #fff176, #ffd54f); color: black; }
+        .breathing-buttons button[name="breathing1"][value="shallow"] { background: linear-gradient(135deg, #fdd835, #ffb300); color: black; }
+        .breathing-buttons button[name="breathing1"][value="deep"] { background: linear-gradient(135deg, #ffb300, #ff8f00); color: black; }
+        .breathing-buttons button[name="breathing1"][value="with_effort"] { background: linear-gradient(135deg, #ff8f00, #f57c00); color: white; }
+        .breathing-buttons button[name="breathing1"][value="wizzy_sound"] { background: linear-gradient(135deg, #f57c00, #ef6c00); color: white; }
+        .breathing-buttons button[name="breathing1"][value="not_breathing"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
+        .breathing-buttons button[name="breathing1"]:hover:not(.selected) { filter: brightness(85%); }
 
         #circulation-block .option-buttons {
             flex-wrap: wrap;
@@ -252,7 +259,7 @@
             padding: 10px 0;
             flex-wrap: nowrap;
             position: absolute;
-            bottom: 10px; /* Moved up slightly for iPhone visibility */
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -370,6 +377,7 @@
             z-index: 999;
         }
 
+        /* Adjusted passenger-data to full width */
         .passenger-data {
             margin-top: 10px;
             padding: 10px;
@@ -379,9 +387,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            align-items: center;
             width: 100%;
-            max-width: 355px;
+            max-width: 100%;
             box-sizing: border-box;
         }
 
@@ -389,7 +396,7 @@
             display: flex;
             gap: 5px;
             width: 100%;
-            justify-content: center;
+            justify-content: space-between;
             flex-wrap: nowrap;
         }
 
@@ -403,10 +410,8 @@
             font-size: 0.8em;
             box-sizing: border-box;
             min-width: 0;
-            max-width: 100px;
         }
 
-        .passenger-data select,
         .passenger-data input[type="text"] {
             width: 100%;
             padding: 5px;
@@ -414,7 +419,6 @@
             border-radius: 4px;
             font-size: 0.8em;
             box-sizing: border-box;
-            max-width: 100px;
         }
 
         @media (max-width: 375px) {
@@ -435,10 +439,6 @@
             }
             .passenger-data .inline-group {
                 gap: 3px;
-            }
-            .passenger-data .inline-group input,
-            .passenger-data .inline-group select {
-                max-width: 90px;
             }
         }
     </style>
@@ -967,4 +967,4 @@
         }
     </script>
 </body>
-</html>
+</html
