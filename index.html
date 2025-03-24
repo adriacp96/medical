@@ -353,14 +353,34 @@
             flex-wrap: nowrap;
         }
 
-        .selection-buttons button {
-            width: 48%;
-            max-width: 170px;
+        .selection-buttons button.submit {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            margin: 10px auto;
+            display: block;
+        }
+
+        .selection-buttons button.submit:hover {
+            background: linear-gradient(135deg, #218838, #1c7430);
+        }
+
+        .secondary-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        .secondary-buttons button {
+            flex: 1;
+            max-width: none;
             background: linear-gradient(135deg, #007BFF, #0056b3);
             color: white;
         }
 
-        .selection-buttons button:hover {
+        .secondary-buttons button:hover {
             background: linear-gradient(135deg, #0056b3, #003d82);
         }
 
@@ -447,6 +467,7 @@
             width: 100%;
             max-width: 100%;
             box-sizing: border-box;
+            text-align: center;
         }
 
         .passenger-data .inline-group {
@@ -467,6 +488,7 @@
             font-size: 0.8em;
             box-sizing: border-box;
             min-width: 0;
+            text-align: center;
         }
 
         .passenger-data input[type="text"] {
@@ -476,6 +498,7 @@
             border-radius: 4px;
             font-size: 0.8em;
             box-sizing: border-box;
+            text-align: center;
         }
 
         .vital-navigation {
@@ -646,8 +669,7 @@
                         </div>
                     </div>
                     <div class="selection-buttons">
-                        <button type="button" onclick="submitPrimary()">Submit</button>
-                        <button type="button" onclick="backToSelection()">Back</button>
+                        <button type="button" class="submit" onclick="submitPrimary()">Submit</button>
                     </div>
                 </div>
             </form>
@@ -655,7 +677,7 @@
 
         <section id="secondary-assessment" style="display: none;">
             <h2>Secondary Assessment</h2>
-            <div class="selection-buttons">
+            <div class="secondary-buttons">
                 <button onclick="showSample()">SAMPLE</button>
                 <button onclick="showDots()">DOTS</button>
             </div>
@@ -687,8 +709,7 @@
                         <input type="text" name="events" placeholder="Events">
                     </div>
                     <div class="selection-buttons">
-                        <button type="button" onclick="submitSecondary()">Submit</button>
-                        <button type="button" onclick="backToSelection()">Back</button>
+                        <button type="button" class="submit" onclick="submitSecondary()">Submit</button>
                     </div>
                 </form>
             </div>
@@ -712,8 +733,7 @@
                         <input type="text" name="swelling" placeholder="Swelling">
                     </div>
                     <div class="selection-buttons">
-                        <button type="button" onclick="submitSecondary()">Submit</button>
-                        <button type="button" onclick="backToSelection()">Back</button>
+                        <button type="button" class="submit" onclick="submitSecondary()">Submit</button>
                     </div>
                 </form>
             </div>
@@ -787,8 +807,7 @@
                         <input type="number" name="glucose" placeholder="Enter glucose level (mg/dL)">
                     </div>
                     <div class="selection-buttons">
-                        <button type="button" onclick="submitVitalSigns()">Submit</button>
-                        <button type="button" onclick="backToSelection()">Back</button>
+                        <button type="button" class="submit" onclick="submitVitalSigns()">Submit</button>
                     </div>
                 </div>
             </form>
