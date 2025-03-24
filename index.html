@@ -2,20 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Medical</title>
-    <link rel="icon" href="https://i.imghippo.com/files/hdi6976Lw.png" type="image/png">
-    <link rel="apple-touch-icon" href="https://i.imghippo.com/files/hdi6976Lw.png">
+    <title>Assessment</title>
+    <link rel="icon" href="https://i.imghippo.com/files/Mhb2694xw.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://i.imghippo.com/files/Mhb2694xw.png">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: none;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            margin: 0;
             padding: 5px;
             text-align: center;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -34,6 +40,8 @@
             align-items: center;
             flex-grow: 1;
             position: relative;
+            height: calc(100vh - 10px);
+            overflow: hidden;
         }
 
         h1, h2, h3, h4, p {
@@ -52,7 +60,7 @@
         }
 
         .selection-section button {
-            width: 32%; /* Adjusted for three buttons */
+            width: 32%;
             margin: 5px 0.5%;
             padding: 8px;
             font-size: 0.9em;
@@ -235,7 +243,6 @@
             max-width: 250px;
         }
 
-        /* Pain Assessment Slider */
         .pain-slider-container {
             width: 100%;
             max-width: 250px;
@@ -296,6 +303,11 @@
         #primary-assessment, #secondary-assessment, #vital-signs {
             display: none;
             width: 100%;
+        }
+
+        #vital-signs {
+            position: relative;
+            height: 100%;
         }
 
         .action-buttons {
@@ -466,6 +478,39 @@
             box-sizing: border-box;
         }
 
+        .vital-navigation {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+        }
+
+        .vital-navigation button {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0 10px;
+        }
+
+        .vital-navigation button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .vital-navigation button:hover:not(:disabled) {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #0056b3, #003d82);
+        }
+
         @media (max-width: 375px) {
             body { padding: 5px; }
             h1, h2 { font-size: 1em; }
@@ -484,6 +529,11 @@
             }
             .passenger-data .inline-group {
                 gap: 3px;
+            }
+            .vital-navigation button {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
             }
         }
     </style>
@@ -742,6 +792,10 @@
                     </div>
                 </div>
             </form>
+            <div class="vital-navigation">
+                <button onclick="prevVitalBlock()" id="prev-vital-btn">←</button>
+                <button onclick="nextVitalBlock()" id="next-vital-btn">→</button>
+            </div>
         </section>
 
         <div class="action-buttons">
@@ -801,6 +855,7 @@
             document.getElementById("vital-signs").style.display = "block";
             currentVitalBlock = 0;
             showVitalBlock(currentVitalBlock);
+            updateVitalNavigationButtons();
         }
 
         function backToSelection() {
@@ -968,11 +1023,30 @@
             backToSelection();
         }
 
+        function prevVitalBlock() {
+            if (currentVitalBlock > 0) {
+                const vitalForm = document.getElementById("vital-form");
+                const formData = new FormData(vitalForm);
+                updateVitalResponses(formData);
+                currentVitalBlock--;
+                showVitalBlock(currentVitalBlock);
+                updateVitalNavigationButtons();
+            }
+        }
+
         function nextVitalBlock() {
             const vitalForm = document.getElementById("vital-form");
             const formData = new FormData(vitalForm);
-            const currentInput = vitalBlocks[currentVitalBlock];
+            updateVitalResponses(formData);
+            if (currentVitalBlock < vitalBlocks.length - 1) {
+                currentVitalBlock++;
+                showVitalBlock(currentVitalBlock);
+                updateVitalNavigationButtons();
+            }
+        }
 
+        function updateVitalResponses(formData) {
+            const currentInput = vitalBlocks[currentVitalBlock];
             if (currentInput === "vital-loc-block") responses.vitalSigns.levelOfConsciousness = formData.get("levelOfConsciousness");
             else if (currentInput === "vital-breathing-block") responses.vitalSigns.breathing = formData.get("breathing");
             else if (currentInput === "vital-pulse-block") responses.vitalSigns.pulseRate = formData.get("pulseRate");
@@ -982,11 +1056,14 @@
             else if (currentInput === "vital-oxygen-provided-block") responses.vitalSigns.oxygenProvided = formData.get("oxygenProvided");
             else if (currentInput === "vital-oxygen-serial-block") responses.vitalSigns.oxygenSerial = formData.get("oxygenSerial");
             else if (currentInput === "vital-blood-pressure-block") responses.vitalSigns.bloodPressure = formData.get("bloodPressure");
+            else if (currentInput === "vital-glucose-block") responses.vitalSigns.glucose = formData.get("glucose");
+        }
 
-            if (currentVitalBlock < vitalBlocks.length - 1) {
-                currentVitalBlock++;
-                showVitalBlock(currentVitalBlock);
-            }
+        function updateVitalNavigationButtons() {
+            const prevBtn = document.getElementById("prev-vital-btn");
+            const nextBtn = document.getElementById("next-vital-btn");
+            prevBtn.disabled = currentVitalBlock === 0;
+            nextBtn.disabled = currentVitalBlock === vitalBlocks.length - 1;
         }
 
         function submitVitalSigns() {
@@ -1208,9 +1285,7 @@
 
         document.querySelectorAll('#vital-form input, #vital-form select').forEach(input => {
             input.addEventListener('change', () => {
-                if (currentVitalBlock < vitalBlocks.length - 1) {
-                    nextVitalBlock();
-                }
+                updateVitalResponses(new FormData(document.getElementById("vital-form")));
             });
         });
     </script>
