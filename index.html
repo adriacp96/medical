@@ -52,7 +52,7 @@
         }
 
         .selection-section button {
-            width: 32%;
+            width: 32%; /* Adjusted for three buttons */
             margin: 5px 0.5%;
             padding: 8px;
             font-size: 0.9em;
@@ -83,7 +83,6 @@
             max-width: 100%;
             text-align: center;
             box-sizing: border-box;
-            position: relative;
         }
 
         .block.visible {
@@ -236,6 +235,7 @@
             max-width: 250px;
         }
 
+        /* Pain Assessment Slider */
         .pain-slider-container {
             width: 100%;
             max-width: 250px;
@@ -306,7 +306,7 @@
             padding: 10px 0;
             flex-wrap: nowrap;
             position: absolute;
-            bottom: 50px; /* Moved up for iPhone visibility */
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -350,34 +350,6 @@
 
         .selection-buttons button:hover {
             background: linear-gradient(135deg, #0056b3, #003d82);
-        }
-
-        /* Navigation Arrows for Vital Signs */
-        .navigation-arrows {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 5px 0;
-        }
-
-        .navigation-arrows button {
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #007BFF;
-            transition: color 0.2s;
-        }
-
-        .navigation-arrows button:hover {
-            color: #0056b3;
-        }
-
-        .navigation-arrows button:disabled {
-            color: #ccc;
-            cursor: not-allowed;
         }
 
         #summary-modal {
@@ -705,19 +677,11 @@
                     <div class="vital-entry">
                         <input type="text" name="levelOfConsciousness" placeholder="Enter consciousness level">
                     </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()" disabled>←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
-                    </div>
                 </div>
                 <div id="vital-breathing-block" class="block">
                     <h3>Breathing</h3>
                     <div class="vital-entry">
                         <input type="number" name="breathing" placeholder="Enter breaths per minute">
-                    </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
                     </div>
                 </div>
                 <div id="vital-pulse-block" class="block">
@@ -725,19 +689,11 @@
                     <div class="vital-entry">
                         <input type="number" name="pulseRate" placeholder="Enter beats per minute">
                     </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
-                    </div>
                 </div>
                 <div id="vital-temperature-block" class="block">
                     <h3>Temperature</h3>
                     <div class="vital-entry">
                         <input type="number" name="temperature" placeholder="Enter temperature (°C)" step="0.1">
-                    </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
                     </div>
                 </div>
                 <div id="vital-pain-block" class="block">
@@ -746,19 +702,11 @@
                         <input type="range" name="painAssessment" min="1" max="9" value="1" class="pain-slider" oninput="updatePainValue(this.value)">
                         <p>Pain Level: <span id="pain-value">1</span></p>
                     </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
-                    </div>
                 </div>
                 <div id="vital-oxygen-sat-block" class="block">
                     <h3>Oxygen SAT</h3>
                     <div class="vital-entry">
                         <input type="number" name="oxygenSat" placeholder="Enter oxygen saturation (%)">
-                    </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
                     </div>
                 </div>
                 <div id="vital-oxygen-provided-block" class="block">
@@ -770,19 +718,11 @@
                             <option value="No">No</option>
                         </select>
                     </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
-                    </div>
                 </div>
                 <div id="vital-oxygen-serial-block" class="block">
                     <h3>Oxygen Serial</h3>
                     <div class="vital-entry">
                         <input type="text" name="oxygenSerial" placeholder="Enter oxygen serial number">
-                    </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
                     </div>
                 </div>
                 <div id="vital-blood-pressure-block" class="block">
@@ -790,19 +730,11 @@
                     <div class="vital-entry">
                         <input type="number" name="bloodPressure" placeholder="Enter systolic/diastolic (e.g., 120)">
                     </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()">→</button>
-                    </div>
                 </div>
                 <div id="vital-glucose-block" class="block">
                     <h3>Glucose</h3>
                     <div class="vital-entry">
                         <input type="number" name="glucose" placeholder="Enter glucose level (mg/dL)">
-                    </div>
-                    <div class="navigation-arrows">
-                        <button type="button" onclick="prevVitalBlock()">←</button>
-                        <button type="button" onclick="nextVitalBlock()" disabled>→</button>
                     </div>
                     <div class="selection-buttons">
                         <button type="button" onclick="submitVitalSigns()">Submit</button>
@@ -923,50 +855,6 @@
             });
         }
 
-        function prevVitalBlock() {
-            const vitalForm = document.getElementById("vital-form");
-            const formData = new FormData(vitalForm);
-            const currentInput = vitalBlocks[currentVitalBlock];
-
-            if (currentInput === "vital-loc-block") responses.vitalSigns.levelOfConsciousness = formData.get("levelOfConsciousness");
-            else if (currentInput === "vital-breathing-block") responses.vitalSigns.breathing = formData.get("breathing");
-            else if (currentInput === "vital-pulse-block") responses.vitalSigns.pulseRate = formData.get("pulseRate");
-            else if (currentInput === "vital-temperature-block") responses.vitalSigns.temperature = formData.get("temperature");
-            else if (currentInput === "vital-pain-block") responses.vitalSigns.painAssessment = formData.get("painAssessment");
-            else if (currentInput === "vital-oxygen-sat-block") responses.vitalSigns.oxygenSat = formData.get("oxygenSat");
-            else if (currentInput === "vital-oxygen-provided-block") responses.vitalSigns.oxygenProvided = formData.get("oxygenProvided");
-            else if (currentInput === "vital-oxygen-serial-block") responses.vitalSigns.oxygenSerial = formData.get("oxygenSerial");
-            else if (currentInput === "vital-blood-pressure-block") responses.vitalSigns.bloodPressure = formData.get("bloodPressure");
-            else if (currentInput === "vital-glucose-block") responses.vitalSigns.glucose = formData.get("glucose");
-
-            if (currentVitalBlock > 0) {
-                currentVitalBlock--;
-                showVitalBlock(currentVitalBlock);
-            }
-        }
-
-        function nextVitalBlock() {
-            const vitalForm = document.getElementById("vital-form");
-            const formData = new FormData(vitalForm);
-            const currentInput = vitalBlocks[currentVitalBlock];
-
-            if (currentInput === "vital-loc-block") responses.vitalSigns.levelOfConsciousness = formData.get("levelOfConsciousness");
-            else if (currentInput === "vital-breathing-block") responses.vitalSigns.breathing = formData.get("breathing");
-            else if (currentInput === "vital-pulse-block") responses.vitalSigns.pulseRate = formData.get("pulseRate");
-            else if (currentInput === "vital-temperature-block") responses.vitalSigns.temperature = formData.get("temperature");
-            else if (currentInput === "vital-pain-block") responses.vitalSigns.painAssessment = formData.get("painAssessment");
-            else if (currentInput === "vital-oxygen-sat-block") responses.vitalSigns.oxygenSat = formData.get("oxygenSat");
-            else if (currentInput === "vital-oxygen-provided-block") responses.vitalSigns.oxygenProvided = formData.get("oxygenProvided");
-            else if (currentInput === "vital-oxygen-serial-block") responses.vitalSigns.oxygenSerial = formData.get("oxygenSerial");
-            else if (currentInput === "vital-blood-pressure-block") responses.vitalSigns.bloodPressure = formData.get("bloodPressure");
-            else if (currentInput === "vital-glucose-block") responses.vitalSigns.glucose = formData.get("glucose");
-
-            if (currentVitalBlock < vitalBlocks.length - 1) {
-                currentVitalBlock++;
-                showVitalBlock(currentVitalBlock);
-            }
-        }
-
         function selectOption(name, value) {
             if (name === "loc1") {
                 responses.primary.levelOfConsciousness.loc1 = value;
@@ -989,7 +877,7 @@
                 if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
                     if (currentBlock < blocks.length - 1) {
                         currentBlock++;
-                        show roomBlock(currentBlock);
+                        showBlock(currentBlock);
                     }
                 }
             } else if (name === "breathing1") {
@@ -1078,6 +966,27 @@
             console.log("Secondary Assessment Responses:", responses.secondary);
             updateSummary();
             backToSelection();
+        }
+
+        function nextVitalBlock() {
+            const vitalForm = document.getElementById("vital-form");
+            const formData = new FormData(vitalForm);
+            const currentInput = vitalBlocks[currentVitalBlock];
+
+            if (currentInput === "vital-loc-block") responses.vitalSigns.levelOfConsciousness = formData.get("levelOfConsciousness");
+            else if (currentInput === "vital-breathing-block") responses.vitalSigns.breathing = formData.get("breathing");
+            else if (currentInput === "vital-pulse-block") responses.vitalSigns.pulseRate = formData.get("pulseRate");
+            else if (currentInput === "vital-temperature-block") responses.vitalSigns.temperature = formData.get("temperature");
+            else if (currentInput === "vital-pain-block") responses.vitalSigns.painAssessment = formData.get("painAssessment");
+            else if (currentInput === "vital-oxygen-sat-block") responses.vitalSigns.oxygenSat = formData.get("oxygenSat");
+            else if (currentInput === "vital-oxygen-provided-block") responses.vitalSigns.oxygenProvided = formData.get("oxygenProvided");
+            else if (currentInput === "vital-oxygen-serial-block") responses.vitalSigns.oxygenSerial = formData.get("oxygenSerial");
+            else if (currentInput === "vital-blood-pressure-block") responses.vitalSigns.bloodPressure = formData.get("bloodPressure");
+
+            if (currentVitalBlock < vitalBlocks.length - 1) {
+                currentVitalBlock++;
+                showVitalBlock(currentVitalBlock);
+            }
         }
 
         function submitVitalSigns() {
