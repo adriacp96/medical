@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Medical</title>
+    <title>Assessment</title>
     <link rel="icon" href="https://i.imghippo.com/files/Mhb2694xw.png" type="image/png">
     <link rel="apple-touch-icon" href="https://i.imghippo.com/files/Mhb2694xw.png">
     <style>
@@ -52,8 +52,8 @@
         }
 
         .selection-section button {
-            width: 48%;
-            margin: 5px 1%;
+            width: 32%; /* Adjusted for three buttons */
+            margin: 5px 0.5%;
             padding: 8px;
             font-size: 0.9em;
             background: linear-gradient(135deg, #007BFF, #0056b3);
@@ -124,7 +124,6 @@
             padding: 4px 2px;
         }
 
-        /* Breathing buttons in two columns */
         #airway-breathing-block .breathing-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -136,14 +135,14 @@
         }
 
         #airway-breathing-block .breathing-buttons button {
-            width: calc(50% - 2px); /* Two buttons per row */
+            width: calc(50% - 2px);
             font-size: 0.75em;
             padding: 4px 6px;
             box-sizing: border-box;
         }
 
         #airway-breathing-block .breathing-buttons button[name="breathing1"][value="not_breathing"] {
-            width: 50%; /* "Not" button takes half width to center it */
+            width: 50%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -183,7 +182,6 @@
         .option-buttons button[name="airway1"][value="obstructed"] { background: linear-gradient(135deg, #dc3545, #c82333); color: white; }
         .option-buttons button[name="airway1"]:hover:not(.selected) { filter: brightness(85%); }
 
-        /* Breathing button colors */
         .breathing-buttons button[name="breathing1"][value="normal"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
         .breathing-buttons button[name="breathing1"][value="abnormal"] { background: linear-gradient(135deg, #ffeb3b, #fbc02d); color: black; }
         .breathing-buttons button[name="breathing1"][value="fast"] { background: linear-gradient(135deg, #ffee58, #ffca28); color: black; }
@@ -203,7 +201,7 @@
             min-width: 0;
         }
 
-        .sample-entry, .dots-entry {
+        .sample-entry, .dots-entry, .vital-entry {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -211,7 +209,7 @@
             width: 100%;
         }
 
-        .sample-entry label, .dots-entry label {
+        .sample-entry label, .dots-entry label, .vital-entry label {
             font-size: 0.9em;
             font-weight: bold;
             width: 20px;
@@ -219,13 +217,62 @@
             color: #333;
         }
 
-        .sample-entry input[type="text"], .dots-entry input[type="text"] {
+        .sample-entry input[type="text"], .dots-entry input[type="text"], .vital-entry input[type="text"], .vital-entry input[type="number"] {
             flex: 1;
             padding: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 0.8em;
             max-width: 250px;
+        }
+
+        .vital-entry select {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.8em;
+            max-width: 250px;
+        }
+
+        /* Pain Assessment Slider */
+        .pain-slider-container {
+            width: 100%;
+            max-width: 250px;
+            margin: 10px auto;
+        }
+
+        .pain-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #28a745, #ffeb3b, #dc3545);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .pain-slider:hover {
+            opacity: 1;
+        }
+
+        .pain-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #007BFF;
+            cursor: pointer;
+        }
+
+        .pain-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #007BFF;
+            cursor: pointer;
         }
 
         button {
@@ -246,7 +293,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        #primary-assessment, #secondary-assessment {
+        #primary-assessment, #secondary-assessment, #vital-signs {
             display: none;
             width: 100%;
         }
@@ -305,7 +352,6 @@
             background: linear-gradient(135deg, #0056b3, #003d82);
         }
 
-        /* Estilos para la ventana flotante */
         #summary-modal {
             display: none;
             position: fixed;
@@ -377,7 +423,6 @@
             z-index: 999;
         }
 
-        /* Adjusted passenger-data to full width */
         .passenger-data {
             margin-top: 10px;
             padding: 10px;
@@ -480,6 +525,7 @@
             <div class="selection-buttons">
                 <button onclick="showPrimary()">Primary</button>
                 <button onclick="showSecondary()">Secondary</button>
+                <button onclick="showVitalSigns()">Vital Signs</button>
             </div>
         </section>
 
@@ -623,6 +669,81 @@
             </div>
         </section>
 
+        <section id="vital-signs">
+            <h2>Vital Signs</h2>
+            <form id="vital-form">
+                <div id="vital-loc-block" class="block">
+                    <h3>Level of Consciousness</h3>
+                    <div class="vital-entry">
+                        <input type="text" name="levelOfConsciousness" placeholder="Enter consciousness level">
+                    </div>
+                </div>
+                <div id="vital-breathing-block" class="block">
+                    <h3>Breathing</h3>
+                    <div class="vital-entry">
+                        <input type="number" name="breathing" placeholder="Enter breaths per minute">
+                    </div>
+                </div>
+                <div id="vital-pulse-block" class="block">
+                    <h3>Pulse Rate</h3>
+                    <div class="vital-entry">
+                        <input type="number" name="pulseRate" placeholder="Enter beats per minute">
+                    </div>
+                </div>
+                <div id="vital-temperature-block" class="block">
+                    <h3>Temperature</h3>
+                    <div class="vital-entry">
+                        <input type="number" name="temperature" placeholder="Enter temperature (°C)" step="0.1">
+                    </div>
+                </div>
+                <div id="vital-pain-block" class="block">
+                    <h3>Pain Assessment</h3>
+                    <div class="pain-slider-container">
+                        <input type="range" name="painAssessment" min="1" max="9" value="1" class="pain-slider" oninput="updatePainValue(this.value)">
+                        <p>Pain Level: <span id="pain-value">1</span></p>
+                    </div>
+                </div>
+                <div id="vital-oxygen-sat-block" class="block">
+                    <h3>Oxygen SAT</h3>
+                    <div class="vital-entry">
+                        <input type="number" name="oxygenSat" placeholder="Enter oxygen saturation (%)">
+                    </div>
+                </div>
+                <div id="vital-oxygen-provided-block" class="block">
+                    <h3>Oxygen Provided</h3>
+                    <div class="vital-entry">
+                        <select name="oxygenProvided">
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="vital-oxygen-serial-block" class="block">
+                    <h3>Oxygen Serial</h3>
+                    <div class="vital-entry">
+                        <input type="text" name="oxygenSerial" placeholder="Enter oxygen serial number">
+                    </div>
+                </div>
+                <div id="vital-blood-pressure-block" class="block">
+                    <h3>Blood Pressure</h3>
+                    <div class="vital-entry">
+                        <input type="number" name="bloodPressure" placeholder="Enter systolic/diastolic (e.g., 120)">
+                    </div>
+                </div>
+                <div id="vital-glucose-block" class="block">
+                    <h3>Glucose</h3>
+                    <div class="vital-entry">
+                        <input type="number" name="glucose" placeholder="Enter glucose level (mg/dL)">
+                    </div>
+                    <div class="selection-buttons">
+                        <button type="button" onclick="submitVitalSigns()">Submit</button>
+                        <button type="button" onclick="backToSelection()">Back</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
         <div class="action-buttons">
             <button id="save-notes" onclick="saveToNotes()" title="Save">📥</button>
             <button id="view-summary" onclick="showSummary()" title="View Summary">🔍</button>
@@ -630,7 +751,6 @@
         </div>
     </div>
 
-    <!-- Ventana flotante para el Summary -->
     <div id="overlay"></div>
     <div id="summary-modal">
         <button class="close-button" onclick="hideSummary()">x</button>
@@ -640,6 +760,12 @@
     <script>
         let currentBlock = 0;
         const blocks = ["loc-block", "airway-breathing-block", "circulation-block"];
+        const vitalBlocks = [
+            "vital-loc-block", "vital-breathing-block", "vital-pulse-block", "vital-temperature-block",
+            "vital-pain-block", "vital-oxygen-sat-block", "vital-oxygen-provided-block",
+            "vital-oxygen-serial-block", "vital-blood-pressure-block", "vital-glucose-block"
+        ];
+        let currentVitalBlock = 0;
         const responses = {
             primary: {
                 levelOfConsciousness: {},
@@ -647,6 +773,7 @@
                 circulation: []
             },
             secondary: {},
+            vitalSigns: {},
             additionalInfo: {}
         };
 
@@ -654,6 +781,7 @@
             document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "block";
             document.getElementById("secondary-assessment").style.display = "none";
+            document.getElementById("vital-signs").style.display = "none";
             currentBlock = 0;
             showBlock(currentBlock);
         }
@@ -662,15 +790,27 @@
             document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "none";
             document.getElementById("secondary-assessment").style.display = "block";
+            document.getElementById("vital-signs").style.display = "none";
             hideSecondarySections();
+        }
+
+        function showVitalSigns() {
+            document.getElementById("selection").style.display = "block";
+            document.getElementById("primary-assessment").style.display = "none";
+            document.getElementById("secondary-assessment").style.display = "none";
+            document.getElementById("vital-signs").style.display = "block";
+            currentVitalBlock = 0;
+            showVitalBlock(currentVitalBlock);
         }
 
         function backToSelection() {
             document.getElementById("selection").style.display = "block";
             document.getElementById("primary-assessment").style.display = "none";
             document.getElementById("secondary-assessment").style.display = "none";
+            document.getElementById("vital-signs").style.display = "none";
             hideAllBlocks();
             hideSecondarySections();
+            hideAllVitalBlocks();
             updateAdditionalInfo();
         }
 
@@ -696,6 +836,23 @@
             const dotsSection = document.getElementById("dots-section");
             if (sampleSection) sampleSection.classList.remove("visible");
             if (dotsSection) dotsSection.classList.remove("visible");
+        }
+
+        function showVitalBlock(index) {
+            hideAllVitalBlocks();
+            const block = document.getElementById(vitalBlocks[index]);
+            if (block) {
+                block.classList.add("visible");
+            }
+        }
+
+        function hideAllVitalBlocks() {
+            vitalBlocks.forEach(id => {
+                const block = document.getElementById(id);
+                if (block) {
+                    block.classList.remove("visible");
+                }
+            });
         }
 
         function selectOption(name, value) {
@@ -811,10 +968,62 @@
             backToSelection();
         }
 
+        function nextVitalBlock() {
+            const vitalForm = document.getElementById("vital-form");
+            const formData = new FormData(vitalForm);
+            const currentInput = vitalBlocks[currentVitalBlock];
+
+            if (currentInput === "vital-loc-block") responses.vitalSigns.levelOfConsciousness = formData.get("levelOfConsciousness");
+            else if (currentInput === "vital-breathing-block") responses.vitalSigns.breathing = formData.get("breathing");
+            else if (currentInput === "vital-pulse-block") responses.vitalSigns.pulseRate = formData.get("pulseRate");
+            else if (currentInput === "vital-temperature-block") responses.vitalSigns.temperature = formData.get("temperature");
+            else if (currentInput === "vital-pain-block") responses.vitalSigns.painAssessment = formData.get("painAssessment");
+            else if (currentInput === "vital-oxygen-sat-block") responses.vitalSigns.oxygenSat = formData.get("oxygenSat");
+            else if (currentInput === "vital-oxygen-provided-block") responses.vitalSigns.oxygenProvided = formData.get("oxygenProvided");
+            else if (currentInput === "vital-oxygen-serial-block") responses.vitalSigns.oxygenSerial = formData.get("oxygenSerial");
+            else if (currentInput === "vital-blood-pressure-block") responses.vitalSigns.bloodPressure = formData.get("bloodPressure");
+
+            if (currentVitalBlock < vitalBlocks.length - 1) {
+                currentVitalBlock++;
+                showVitalBlock(currentVitalBlock);
+            }
+        }
+
+        function submitVitalSigns() {
+            const vitalForm = document.getElementById("vital-form");
+            const formData = new FormData(vitalForm);
+
+            responses.vitalSigns = {
+                levelOfConsciousness: formData.get("levelOfConsciousness"),
+                breathing: formData.get("breathing"),
+                pulseRate: formData.get("pulseRate"),
+                temperature: formData.get("temperature"),
+                painAssessment: formData.get("painAssessment"),
+                oxygenSat: formData.get("oxygenSat"),
+                oxygenProvided: formData.get("oxygenProvided"),
+                oxygenSerial: formData.get("oxygenSerial"),
+                bloodPressure: formData.get("bloodPressure"),
+                glucose: formData.get("glucose")
+            };
+
+            if (Object.values(responses.vitalSigns).every(val => val !== null && val !== "")) {
+                console.log("Vital Signs Responses:", responses.vitalSigns);
+                updateSummary();
+                backToSelection();
+            } else {
+                alert("Please complete all vital signs fields.");
+            }
+        }
+
+        function updatePainValue(value) {
+            document.getElementById("pain-value").textContent = value;
+        }
+
         function updateSummary() {
             const summaryContent = document.getElementById("summary-content");
             const primary = responses.primary;
             const secondary = responses.secondary;
+            const vitalSigns = responses.vitalSigns;
             const additional = responses.additionalInfo;
 
             let summaryHTML = "<h3>Summary</h3><ul>";
@@ -857,6 +1066,20 @@
                 if (secondary.dots.swelling) summaryHTML += `<li>  S: ${secondary.dots.swelling}</li>`;
             }
 
+            if (vitalSigns.levelOfConsciousness) {
+                summaryHTML += `<li><span>Vital Signs:</span></li>`;
+                if (vitalSigns.levelOfConsciousness) summaryHTML += `<li>  Level of Consciousness: ${vitalSigns.levelOfConsciousness}</li>`;
+                if (vitalSigns.breathing) summaryHTML += `<li>  Breathing: ${vitalSigns.breathing} breaths/min</li>`;
+                if (vitalSigns.pulseRate) summaryHTML += `<li>  Pulse Rate: ${vitalSigns.pulseRate} beats/min</li>`;
+                if (vitalSigns.temperature) summaryHTML += `<li>  Temperature: ${vitalSigns.temperature} °C</li>`;
+                if (vitalSigns.painAssessment) summaryHTML += `<li>  Pain Assessment: ${vitalSigns.painAssessment}/9</li>`;
+                if (vitalSigns.oxygenSat) summaryHTML += `<li>  Oxygen SAT: ${vitalSigns.oxygenSat}%</li>`;
+                if (vitalSigns.oxygenProvided) summaryHTML += `<li>  Oxygen Provided: ${vitalSigns.oxygenProvided}</li>`;
+                if (vitalSigns.oxygenSerial) summaryHTML += `<li>  Oxygen Serial: ${vitalSigns.oxygenSerial}</li>`;
+                if (vitalSigns.bloodPressure) summaryHTML += `<li>  Blood Pressure: ${vitalSigns.bloodPressure} mmHg</li>`;
+                if (vitalSigns.glucose) summaryHTML += `<li>  Glucose: ${vitalSigns.glucose} mg/dL</li>`;
+            }
+
             summaryHTML += "</ul>";
             summaryContent.innerHTML = summaryHTML;
         }
@@ -890,6 +1113,7 @@
         function saveToNotes() {
             const primary = responses.primary;
             const secondary = responses.secondary;
+            const vitalSigns = responses.vitalSigns;
             const additional = responses.additionalInfo;
 
             let textContent = "Assessment Notes\n";
@@ -932,6 +1156,19 @@
                 textContent += secondary.dots.swelling ? `  Swelling: ${secondary.dots.swelling}\n` : "";
             }
 
+            textContent += "\nVital Signs:\n";
+            textContent += "------------\n";
+            textContent += vitalSigns.levelOfConsciousness ? `Level of Consciousness: ${vitalSigns.levelOfConsciousness}\n` : "";
+            textContent += vitalSigns.breathing ? `Breathing: ${vitalSigns.breathing} breaths/min\n` : "";
+            textContent += vitalSigns.pulseRate ? `Pulse Rate: ${vitalSigns.pulseRate} beats/min\n` : "";
+            textContent += vitalSigns.temperature ? `Temperature: ${vitalSigns.temperature} °C\n` : "";
+            textContent += vitalSigns.painAssessment ? `Pain Assessment: ${vitalSigns.painAssessment}/9\n` : "";
+            textContent += vitalSigns.oxygenSat ? `Oxygen SAT: ${vitalSigns.oxygenSat}%\n` : "";
+            textContent += vitalSigns.oxygenProvided ? `Oxygen Provided: ${vitalSigns.oxygenProvided}\n` : "";
+            textContent += vitalSigns.oxygenSerial ? `Oxygen Serial: ${vitalSigns.oxygenSerial}\n` : "";
+            textContent += vitalSigns.bloodPressure ? `Blood Pressure: ${vitalSigns.bloodPressure} mmHg\n` : "";
+            textContent += vitalSigns.glucose ? `Glucose: ${vitalSigns.glucose} mg/dL\n` : "";
+
             const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -947,6 +1184,7 @@
                 circulation: []
             };
             responses.secondary = {};
+            responses.vitalSigns = {};
             responses.additionalInfo = {};
 
             const additionalForm = document.getElementById("additional-form");
@@ -954,8 +1192,10 @@
 
             const sampleForm = document.getElementById("sample-form");
             const dotsForm = document.getElementById("dots-form");
+            const vitalForm = document.getElementById("vital-form");
             sampleForm.reset();
             dotsForm.reset();
+            vitalForm.reset();
 
             const buttons = document.querySelectorAll('.option-buttons button');
             buttons.forEach(btn => btn.classList.remove("selected"));
@@ -965,6 +1205,14 @@
 
             alert("All data cleared.");
         }
+
+        document.querySelectorAll('#vital-form input, #vital-form select').forEach(input => {
+            input.addEventListener('change', () => {
+                if (currentVitalBlock < vitalBlocks.length - 1) {
+                    nextVitalBlock();
+                }
+            });
+        });
     </script>
 </body>
-</html
+</html>
