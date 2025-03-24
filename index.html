@@ -118,14 +118,27 @@
 
         #airway-breathing-block .option-buttons button {
             flex: 0 0 auto;
-            width: calc(25% - 5px); /* Divide la pantalla en 4 partes menos el gap */
+            width: calc(25% - 5px);
             min-width: 0;
             font-size: 0.75em;
-            padding: 4px 2px; /* Reducido padding horizontal */
+            padding: 4px 2px;
         }
 
-        #airway-breathing-block .option-buttons button[name="breathing1"] {
-            width: auto; /* Breathing mantiene ancho según contenido */
+        /* Breathing buttons stacked vertically */
+        #airway-breathing-block .breathing-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        #airway-breathing-block .breathing-buttons button {
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            font-size: 0.75em;
             padding: 4px 6px;
         }
 
@@ -239,7 +252,7 @@
             padding: 10px 0;
             flex-wrap: nowrap;
             position: absolute;
-            bottom: 0;
+            bottom: 10px; /* Moved up slightly for iPhone visibility */
             left: 50%;
             transform: translateX(-50%);
         }
@@ -277,6 +290,12 @@
         .selection-buttons button {
             width: 48%;
             max-width: 170px;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            color: white;
+        }
+
+        .selection-buttons button:hover {
+            background: linear-gradient(135deg, #0056b3, #003d82);
         }
 
         /* Estilos para la ventana flotante */
@@ -497,7 +516,7 @@
                         <h4>Breathing</h4>
                         <div class="question">
                             <p>2. Breathing status:</p>
-                            <div class="option-buttons">
+                            <div class="breathing-buttons">
                                 <button type="button" name="breathing1" value="normal" onclick="selectOption('breathing1', 'normal')">Normal</button>
                                 <button type="button" name="breathing1" value="abnormal" onclick="selectOption('breathing1', 'abnormal')">Abnormal</button>
                                 <button type="button" name="breathing1" value="fast" onclick="selectOption('breathing1', 'fast')">Fast</button>
@@ -530,8 +549,10 @@
                             <button type="button" name="circ1" value="signs_of_bleeding" onclick="selectOption('circ1', 'signs_of_bleeding')">Bleeding</button>
                         </div>
                     </div>
-                    <button type="button" onclick="submitPrimary()">Submit</button>
-                    <button type="button" onclick="backToSelection()">Back</button>
+                    <div class="selection-buttons">
+                        <button type="button" onclick="submitPrimary()">Submit</button>
+                        <button type="button" onclick="backToSelection()">Back</button>
+                    </div>
                 </div>
             </form>
         </section>
@@ -569,8 +590,10 @@
                         <label>E</label>
                         <input type="text" name="events" placeholder="Events">
                     </div>
-                    <button type="button" onclick="submitSecondary()">Submit</button>
-                    <button type="button" onclick="backToSelection()">Back</button>
+                    <div class="selection-buttons">
+                        <button type="button" onclick="submitSecondary()">Submit</button>
+                        <button type="button" onclick="backToSelection()">Back</button>
+                    </div>
                 </form>
             </div>
 
@@ -592,8 +615,10 @@
                         <label>S</label>
                         <input type="text" name="swelling" placeholder="Swelling">
                     </div>
-                    <button type="button" onclick="submitSecondary()">Submit</button>
-                    <button type="button" onclick="backToSelection()">Back</button>
+                    <div class="selection-buttons">
+                        <button type="button" onclick="submitSecondary()">Submit</button>
+                        <button type="button" onclick="backToSelection()">Back</button>
+                    </div>
                 </form>
             </div>
         </section>
@@ -608,7 +633,7 @@
     <!-- Ventana flotante para el Summary -->
     <div id="overlay"></div>
     <div id="summary-modal">
-        <button class="close-button" onclick="hideSummary()">✖</button>
+        <button class="close-button" onclick="hideSummary()">x</button>
         <div id="summary-content"></div>
     </div>
 
@@ -752,7 +777,6 @@
                 responses.primary.circulation.length > 0) {
                 console.log("Primary Assessment Responses:", responses.primary);
                 updateSummary();
-                alert("Primary Assessment submitted. You can view the summary with the 🔍 button.");
                 backToSelection();
             } else {
                 alert("Please complete all sections and select at least one circulation option.");
@@ -784,7 +808,6 @@
 
             console.log("Secondary Assessment Responses:", responses.secondary);
             updateSummary();
-            alert("Secondary Assessment submitted. You can view the summary with the 🔍 button.");
             backToSelection();
         }
 
