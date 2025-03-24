@@ -15,12 +15,13 @@
             padding: 0;
             overflow: hidden;
             touch-action: none;
+            background-color: #ffffff;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 5px;
+            background-color: #ffffff;
+            padding: 0;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -30,17 +31,17 @@
             max-width: 375px;
             width: 100%;
             margin: 0 auto;
-            background: white;
+            background: #ffffff;
             padding: 5px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            box-shadow: none;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
             flex-grow: 1;
             position: relative;
-            height: calc(100vh - 10px);
+            height: 100vh;
             overflow: hidden;
         }
 
@@ -68,22 +69,21 @@
             color: white;
             border: none;
             border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: none;
+            transition: transform 0.2s;
         }
 
         .selection-section button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             background: linear-gradient(135deg, #0056b3, #003d82);
         }
 
         .block {
             margin-bottom: 10px;
             padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #fafafa;
+            border: none;
+            border-radius: 0;
+            background-color: #ffffff;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             display: none;
@@ -164,7 +164,7 @@
             flex: 1 1 auto;
             min-width: 60px;
             font-size: 0.75em;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: none;
             transition: all 0.2s;
         }
 
@@ -176,7 +176,6 @@
         .option-buttons button.selected {
             background: linear-gradient(135deg, #007BFF, #0056b3);
             color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .option-buttons button[name="loc1"][value="conscious"] { background: linear-gradient(135deg, #28a745, #218838); color: white; }
@@ -290,14 +289,13 @@
             cursor: pointer;
             margin-top: 5px;
             font-size: 0.9em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: none;
             transition: all 0.2s;
             max-width: 200px;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         #primary-assessment, #secondary-assessment, #vital-signs {
@@ -393,11 +391,11 @@
             width: 90%;
             max-width: 355px;
             max-height: 80vh;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 0;
             padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: none;
             z-index: 1000;
             overflow-y: auto;
             text-align: left;
@@ -421,9 +419,9 @@
         #summary-modal li {
             margin-bottom: 5px;
             padding: 3px;
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 0;
+            box-shadow: none;
         }
 
         #summary-modal li span {
@@ -451,16 +449,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0);
             z-index: 999;
         }
 
         .passenger-data {
             margin-top: 10px;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #f9f9f9;
+            border: none;
+            border-radius: 0;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -522,6 +520,7 @@
             cursor: pointer;
             transition: all 0.2s;
             margin: 0 10px;
+            box-shadow: none;
         }
 
         .vital-navigation button:disabled {
@@ -535,7 +534,7 @@
         }
 
         @media (max-width: 375px) {
-            body { padding: 5px; }
+            body { padding: 0; }
             h1, h2 { font-size: 1em; }
             h3, h4 { font-size: 0.9em; }
             .selection-section button {
