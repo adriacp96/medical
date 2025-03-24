@@ -15,12 +15,12 @@
             padding: 0;
             overflow: hidden;
             touch-action: none;
-            background-color: #ffffff; /* Fondo blanco puro solo en la parte exterior */
+            background-color: #ffffff;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Fondo gris claro como en el original */
+            background-color: #f4f4f4;
             padding: 5px;
             text-align: center;
             display: flex;
@@ -31,10 +31,10 @@
             max-width: 375px;
             width: 100%;
             margin: 0 auto;
-            background: white; /* Fondo blanco como en el original */
+            background: white;
             padding: 5px;
-            border-radius: 8px; /* Bordes redondeados como en el original */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -69,7 +69,7 @@
             color: white;
             border: none;
             border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -82,9 +82,9 @@
         .block {
             margin-bottom: 10px;
             padding: 5px;
-            border: 1px solid #ddd; /* Borde como en el original */
-            border-radius: 4px; /* Bordes redondeados como en el original */
-            background-color: #fafafa; /* Fondo gris claro como en el original */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fafafa;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             display: none;
@@ -165,7 +165,7 @@
             flex: 1 1 auto;
             min-width: 60px;
             font-size: 0.75em;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
         }
 
@@ -291,7 +291,7 @@
             cursor: pointer;
             margin-top: 5px;
             font-size: 0.9em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
             max-width: 200px;
         }
@@ -394,11 +394,11 @@
             width: 90%;
             max-width: 355px;
             max-height: 80vh;
-            background-color: #f9f9f9; /* Fondo gris claro como en el original */
-            border: 1px solid #ddd; /* Borde como en el original */
-            border-radius: 4px; /* Bordes redondeados como en el original */
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra como en el original */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             overflow-y: auto;
             text-align: left;
@@ -422,9 +422,9 @@
         #summary-modal li {
             margin-bottom: 5px;
             padding: 3px;
-            background-color: #fff; /* Fondo blanco como en el original */
-            border-radius: 4px; /* Bordes redondeados como en el original */
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         #summary-modal li span {
@@ -452,16 +452,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Fondo oscuro como en el original */
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
 
         .passenger-data {
             margin-top: 10px;
             padding: 10px;
-            border: 1px solid #ddd; /* Borde como en el original */
-            border-radius: 4px; /* Bordes redondeados como en el original */
-            background-color: #f9f9f9; /* Fondo gris claro como en el original */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -568,7 +568,7 @@
 
         <section id="selection" class="selection-section">
             <div class="passenger-data">
-                <form id="additional-form" oninput="updateAdditionalInfo()">
+                <form id="additional-form">
                     <div class="inline-group">
                         <input type="text" name="seatNumber" placeholder="Seat (e.g., 1A)">
                         <input type="text" name="age" placeholder="Age (e.g., 35)">
@@ -669,9 +669,6 @@
                             <button type="button" name="circ1" value="signs_of_bleeding" onclick="selectOption('circ1', 'signs_of_bleeding')">Bleeding</button>
                         </div>
                     </div>
-                    <div class="selection-buttons">
-                        <button type="button" class="submit" onclick="submitPrimary()">Submit</button>
-                    </div>
                 </div>
             </form>
         </section>
@@ -709,9 +706,6 @@
                         <label>E</label>
                         <input type="text" name="events" placeholder="Events">
                     </div>
-                    <div class="selection-buttons">
-                        <button type="button" class="submit" onclick="submitSecondary()">Submit</button>
-                    </div>
                 </form>
             </div>
 
@@ -732,9 +726,6 @@
                     <div class="dots-entry">
                         <label>S</label>
                         <input type="text" name="swelling" placeholder="Swelling">
-                    </div>
-                    <div class="selection-buttons">
-                        <button type="button" class="submit" onclick="submitSecondary()">Submit</button>
                     </div>
                 </form>
             </div>
@@ -806,9 +797,6 @@
                     <h3>Glucose</h3>
                     <div class="vital-entry">
                         <input type="number" name="glucose" placeholder="Enter glucose level (mg/dL)">
-                    </div>
-                    <div class="selection-buttons">
-                        <button type="button" class="submit" onclick="submitVitalSigns()">Submit</button>
                     </div>
                 </div>
             </form>
@@ -949,11 +937,9 @@
                     btn.classList.remove("selected");
                     if (btn.value === value) btn.classList.add("selected");
                 });
-                if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
-                    if (currentBlock < blocks.length - 1) {
-                        currentBlock++;
-                        showBlock(currentBlock);
-                    }
+                if (currentBlock < blocks.length - 1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
+                    currentBlock++;
+                    showBlock(currentBlock);
                 }
             } else if (name === "breathing1") {
                 responses.primary.airwayAndBreathing.breathing.breathing1 = value;
@@ -962,11 +948,9 @@
                     btn.classList.remove("selected");
                     if (btn.value === value) btn.classList.add("selected");
                 });
-                if (responses.primary.airwayAndBreathing.airway.airway1 && responses.primary.airwayAndBreathing.breathing.breathing1) {
-                    if (currentBlock < blocks.length - 1) {
-                        currentBlock++;
-                        showBlock(currentBlock);
-                    }
+                if (currentBlock < blocks.length - 1 && responses.primary.airwayAndBreathing.airway.airway1) {
+                    currentBlock++;
+                    showBlock(currentBlock);
                 }
             } else if (name === "circ1") {
                 const index = responses.primary.circulation.indexOf(value);
@@ -983,6 +967,9 @@
                         btn.classList.remove("selected");
                     }
                 });
+                if (responses.primary.circulation.length > 0) {
+                    submitPrimary();
+                }
             }
         }
 
@@ -1010,8 +997,6 @@
                 console.log("Primary Assessment Responses:", responses.primary);
                 updateSummary();
                 backToSelection();
-            } else {
-                alert("Please complete all sections and select at least one circulation option.");
             }
         }
 
@@ -1062,6 +1047,8 @@
                 currentVitalBlock++;
                 showVitalBlock(currentVitalBlock);
                 updateVitalNavigationButtons();
+            } else {
+                submitVitalSigns();
             }
         }
 
@@ -1107,8 +1094,6 @@
                 console.log("Vital Signs Responses:", responses.vitalSigns);
                 updateSummary();
                 backToSelection();
-            } else {
-                alert("Please complete all vital signs fields.");
             }
         }
 
@@ -1204,7 +1189,11 @@
                 timeOccurred: additionalData.get("timeOccurred")
             };
 
-            updateSummary();
+            const allFilled = Object.values(responses.additionalInfo).every(val => val !== null && val !== "");
+            if (allFilled) {
+                updateSummary();
+                showPrimary();
+            }
         }
 
         function saveToNotes() {
@@ -1303,9 +1292,41 @@
             alert("All data cleared.");
         }
 
+        // Event listeners for automatic progression
+        document.querySelectorAll('#additional-form input, #additional-form select').forEach(input => {
+            input.addEventListener('change', updateAdditionalInfo);
+        });
+
+        document.querySelectorAll('#sample-form input').forEach(input => {
+            input.addEventListener('input', () => {
+                const sampleForm = document.getElementById("sample-form");
+                const sampleData = new FormData(sampleForm);
+                const allFilled = Array.from(sampleData.values()).every(val => val !== "");
+                if (allFilled) {
+                    submitSecondary();
+                }
+            });
+        });
+
+        document.querySelectorAll('#dots-form input').forEach(input => {
+            input.addEventListener('input', () => {
+                const dotsForm = document.getElementById("dots-form");
+                const dotsData = new FormData(dotsForm);
+                const allFilled = Array.from(dotsData.values()).every(val => val !== "");
+                if (allFilled) {
+                    submitSecondary();
+                }
+            });
+        });
+
         document.querySelectorAll('#vital-form input, #vital-form select').forEach(input => {
             input.addEventListener('change', () => {
-                updateVitalResponses(new FormData(document.getElementById("vital-form")));
+                const vitalForm = document.getElementById("vital-form");
+                const formData = new FormData(vitalForm);
+                updateVitalResponses(formData);
+                if (responses.vitalSigns[vitalBlocks[currentVitalBlock].replace("vital-", "").replace("-block", "")]) {
+                    nextVitalBlock();
+                }
             });
         });
     </script>
