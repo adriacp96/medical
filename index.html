@@ -9,75 +9,65 @@
     <link rel="icon" href="https://i.imghippo.com/files/hdi6976Lw.png" type="image/png">
     <link rel="apple-touch-icon" href="https://i.imghippo.com/files/hdi6976Lw.png">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            touch-action: none;
-            background-color: #ffffff; /* Fondo blanco puro solo en la parte exterior */
-        }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: transparent; /* Fondo transparente para heredar el color del sistema */
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Fondo gris claro como en el original */
-            padding: 5px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-        }
+body {
+    font-family: Arial, sans-serif;
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    color: #000; /* Color por defecto para texto en modo claro */
+}
 
-        .container {
-            max-width: 375px;
-            width: 100%;
-            margin: 0 auto;
-            background: white; /* Fondo blanco como en el original */
-            padding: 5px;
-            border-radius: 8px; /* Bordes redondeados como en el original */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-            position: relative;
-            height: calc(100vh - 10px);
-            overflow: hidden;
-        }
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    body {
+        color: #000; /* Texto negro en modo claro */
+    }
+    .container {
+        background: white; /* Fondo blanco para el contenedor en modo claro */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+}
 
-        h1, h2, h3, h4, p {
-            text-align: center;
-            margin: 5px 0;
-        }
-
-        h1 { font-size: 1.2em; }
-        h2 { font-size: 1.2em; }
-        h3 { font-size: 1em; color: #333; }
-        h4 { font-size: 0.9em; color: #555; }
-
-        .selection-section {
-            text-align: center;
-            width: 100%;
-        }
-
-        .selection-section button {
-            width: 32%;
-            margin: 5px 0.5%;
-            padding: 8px;
-            font-size: 0.9em;
-            background: linear-gradient(135deg, #007BFF, #0056b3);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra como en el original */
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .selection-section button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #0056b3, #003d82);
-        }
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #fff; /* Texto blanco en modo oscuro */
+    }
+    .container {
+        background: #1a1a1a; /* Fondo oscuro para el contenedor en modo oscuro */
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    }
+    /* Ajustar colores de texto y botones para mejor contraste en modo oscuro */
+    h1, h2, h3, h4, p {
+        color: #fff;
+    }
+    .selection-section button {
+        background: linear-gradient(135deg, #1e90ff, #4169e1);
+    }
+    .selection-section button:hover {
+        background: linear-gradient(135deg, #4169e1, #2f4f7f);
+    }
+    .option-buttons button {
+        background: linear-gradient(135deg, #333, #555);
+        color: #fff;
+    }
+    .option-buttons button:hover {
+        background: linear-gradient(135deg, #555, #777);
+    }
+    .option-buttons button.selected {
+        background: linear-gradient(135deg, #1e90ff, #4169e1);
+    }
+}
 
         .block {
             margin-bottom: 10px;
