@@ -479,7 +479,7 @@
             flex-wrap: nowrap;
         }
 
-        .passenger-data .inline-group input[type="text"],
+        .passenger-data .inline-group input[type="numeric"],
         .passenger-data .inline-group select {
             flex: 1;
             padding: 5px;
@@ -492,7 +492,7 @@
             text-align: center;
         }
 
-        .passenger-data input[type="text"] {
+        .passenger-data input[type="number"] {
             width: 100%;
             padding: 5px;
             border: 1px solid #ddd;
@@ -570,8 +570,8 @@
             <div class="passenger-data">
                 <form id="additional-form" oninput="updateAdditionalInfo()">
                     <div class="inline-group">
-                        <input type="text" name="seatNumber" placeholder="Seat (e.g., 1A)">
-                        <input type="text" name="age" placeholder="Age (e.g., 35)">
+                        <input type="number" name="seatNumber" placeholder="Seat (e.g., 1A)">
+                        <input type="number" name="age" placeholder="Age (e.g., 35)">
                         <select name="gender">
                             <option value="">Gender</option>
                             <option value="Male">Male</option>
@@ -591,7 +591,7 @@
                             <option value="No">No</option>
                         </select>
                     </div>
-                    <input type="text" name="timeOccurred" placeholder="Time (e.g., 14:00)">
+                    <input type="number" name="timeOccurred" placeholder="Time (e.g., 14:00)">
                 </form>
             </div>
 
